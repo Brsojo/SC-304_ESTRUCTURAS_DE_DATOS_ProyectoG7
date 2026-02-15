@@ -14,6 +14,8 @@ public class Proyecto {
         System.out.println("Hello World!");
         System.out.println("Prueba!");
         
+        ModuloPrincipal menu = new ModuloPrincipal();
+        
         
     }
 }
