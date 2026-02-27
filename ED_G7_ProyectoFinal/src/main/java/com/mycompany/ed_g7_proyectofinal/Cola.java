@@ -189,7 +189,7 @@ public class Cola {
         StringBuilder sb = new StringBuilder("<html>");
 
         sb.append("<h3 style='color:orange;'>Pacientes Preferenciales:</h3>");
-        // Supongamos que tienes un método que devuelve los datos de la cola
+        
         sb.append("<span style='color:orange;'>").append(colaPref.devuelvefichas()).append("</span>");
 
         sb.append("<br><h3 style='color:green;'>Pacientes Regulares:</h3>");
