@@ -116,7 +116,7 @@ public class ModuloPrincipal {
                     break;
                 case 2:
                     JOptionPane.showMessageDialog(null, "**************Version de la herramienta **************"
-                    +"\n Avance 1 V 1.7.2"
+                    +"\n Avance 1 V 1.0.7"
                     +"\n\n Dessarrolado por:"
                     +"\n FI25049164  ILAMA PIEDRA MATTHEW"
                     +"\n FI24041046  PADILLA CHINCHILLA ALEX"
