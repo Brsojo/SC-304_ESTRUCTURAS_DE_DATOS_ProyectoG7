@@ -17,13 +17,33 @@ public class PilaQuejas {
         cima= null; // inicia la pila en null para indicar que la pila esta vacia
     }
     
+    /**
+     * Obtiene el nodo en la cima de la pila
+     * @author: Jose Rolando Salas Sanabria
+     * @return: nodo cima de la pila
+     */
+    
     public Nodo getCima() {
         return cima;
     }
     
+    /**
+     * Establece el nodo en la cima de la pila
+     * @author: Jose Rolando Salas Sanabria
+     * @param cima: nuevo nodo cima
+     */
+    
     public void setCima(Nodo cima) {
         this.cima = cima;
     }
+    
+    /**
+     * Agrega una nueva queja a la pila
+     * @author: Jose Rolando Salas Sanabria
+     * @param nPaciente: paciente que abandona
+     * @param abandono: motivo del abandono
+     * @see EDG7-11
+     */
     
     public void apilar(Paciente nPaciente, String abandono){
       Nodo miNodo = new Nodo(nPaciente); // crear nodo
@@ -40,9 +60,11 @@ public class PilaQuejas {
    }
     
     /**
-     * Retira y retorna el elemento que se encuentra en la cima (operación Pop).
-     * @return El objeto Dato retirado, o null si la pila está vacía.
+     * Retira y retorna el elemento que se encuentra en la cima (operación Pop)
+     * @author: Jose Rolando Salas Sanabria
+     * @return: paciente retirado, o null si la pila está vacía
      */
+    
    public Paciente desapilar(){
        if(cima==null){
            System.out.println("Pila esta vacia");
@@ -57,9 +79,11 @@ public class PilaQuejas {
    }
    
     /**
-     * Consulta el elemento en la cima sin retirarlo (operación Peek).
-     * @return El objeto  en la cima, o null si está vacía.
+     * Consulta el elemento en la cima sin retirarlo (operación Peek)
+     * @author: Jose Rolando Salas Sanabria
+     * @return: paciente en la cima, o null si está vacía
      */
+   
    public Paciente devuelveCima(){ 
        //if(cima==null){
        if(esVacia()){
@@ -71,9 +95,11 @@ public class PilaQuejas {
    }
    
    /**
-     * Verifica si la pila carece de elementos.
-     * @return true si la cima es nula;  false en caso contrario.
+     * Verifica si la pila carece de elementos
+     * @author: Jose Rolando Salas Sanabria
+     * @return: true si la cima es nula; false en caso contrario
      */
+   
    public boolean esVacia(){
        if (cima==null)
            return true;
@@ -82,9 +108,11 @@ public class PilaQuejas {
    }
    
      /**
-     * Recorre la pila para contar el número total de elementos.
-     * @return El número de nodos presentes en la estructura.
+     * Recorre la pila para contar el número total de elementos
+     * @author: Jose Rolando Salas Sanabria
+     * @return: número de nodos presentes en la estructura
      */
+   
    public int retornaTamano(){
        Nodo temp = cima; // crear una variable temp para recorrer la estructura de datos sin alterar 
        
@@ -98,9 +126,10 @@ public class PilaQuejas {
    }
    
    /**
-     * Imprime en la consola los valores almacenados en la pila, 
-     * desde la cima hasta el fondo.
+     * Imprime en la consola los valores almacenados en la pila
+     * @author: Jose Rolando Salas Sanabria
      */
+   
     public void imprimePila(){
         Nodo temp = cima; // crear una variable temp para recorrer la estructura de datos sin alterar        
         //ciclo para recorrer pila
@@ -109,6 +138,11 @@ public class PilaQuejas {
             temp=temp.getSiguiente();
         }        
     }
+    
+    /**
+     * Muestra todas las quejas recibidas en un cuadro de diálogo
+     * @author: Brandon Sojo Acuña
+     */
     
     public void quejasRecibidas(){
         Nodo temp = cima; // crear una variable temp para recorrer la estructura de datos sin alterar        

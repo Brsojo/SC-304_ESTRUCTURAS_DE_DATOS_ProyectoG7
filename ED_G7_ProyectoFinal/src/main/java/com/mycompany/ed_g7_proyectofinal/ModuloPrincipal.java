@@ -25,6 +25,12 @@ public class ModuloPrincipal {
     public ModuloPrincipal(){
     
     }
+    
+     /**
+     * Muestra el menú principal del sistema y gestiona la navegación
+     * @author: Alex Padilla Chinchilla
+     */
+    
     public void MenuPrincipal() {
         Paciente temp ;
         do {
@@ -136,6 +142,12 @@ public class ModuloPrincipal {
         
            } while (indice != 0);
     }
+    
+    /**
+     * Atiende al siguiente paciente aplicando el algoritmo 2:1
+     * (2 preferenciales por cada 1 regular)
+     * @author: Matthew Ilama Piedra
+     */
     
     public void atenderPaciente() {
     Paciente atendido = null;

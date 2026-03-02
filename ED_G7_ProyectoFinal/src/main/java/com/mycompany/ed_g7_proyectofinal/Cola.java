@@ -20,13 +20,31 @@ public class Cola {
         this.ultimo=null;
     }
     
+     /**
+     * Obtiene el primer nodo de la cola
+     * @author: Brandon Sojo Acuña
+     * @return: primer nodo de la cola
+     */
+    
     public Nodo getPrimero() {
         return primero;
     }
+    
+     /**
+     * Obtiene el último nodo de la cola
+     * @author: Brandon Sojo Acuña
+     * @return: último nodo de la cola
+     */
 
     public Nodo getUltimo() {
         return ultimo;
     }
+    
+    /**
+     * Agrega un nuevo paciente al final de la cola
+     * @author: Brandon Sojo Acuña
+     * @param nPaciente: paciente a encolar
+     */
     
      public void encolar(Paciente nPaciente){
         //1.Crar el nodo
@@ -41,6 +59,12 @@ public class Cola {
             primero = nuevo;
         }
     }
+     
+     /**
+     * Elimina y retorna el primer paciente de la cola
+     * @author: Brandon Sojo Acuña
+     * @return: paciente desencolado o null si la cola está vacía
+     */
     
     
     public Paciente desencolar(){
@@ -59,6 +83,12 @@ public class Cola {
         }
     }
     
+    /**
+     * Verifica si la cola está vacía
+     * @author: Brandon Sojo Acuña
+     * @return: true si está vacía, false en caso contrario
+     */
+    
     public boolean estaVacia(){
         if(primero==null){
             return true;
@@ -68,7 +98,12 @@ public class Cola {
         //return primero == null; 
     }
     
-    // metodo front
+    /**
+     * Devuelve el nombre del primer paciente sin eliminarlo
+     * @author: Brandon Sojo Acuña
+     * @return: nombre del primer paciente o null si la cola está vacía
+     */
+    
     public String devuelvePrimero(){
         if(primero!=null){
             return this.getPrimero().getMiPaciente().getNombre();
@@ -77,6 +112,11 @@ public class Cola {
             return null;
         }
     }
+    
+     /**
+     * Imprime en consola todos los pacientes de la cola
+     * @author: Brandon Sojo Acuña
+     */
     
     public void imprimeCola(){
         Nodo temp = primero; // crear una variable temp para recorrer la estructura de datos sin alterar        
@@ -91,6 +131,12 @@ public class Cola {
         }        
     }
     
+     /**
+     * Devuelve una cadena con todas las fichas de la cola
+     * @author: Brandon Sojo Acuña
+     * @return: cadena con las fichas separadas por espacios
+     */
+    
     public String devuelvefichas(){
         Nodo temp = primero; // crear una variable temp para recorrer la estructura de datos sin alterar        
         String fichas="";
@@ -102,6 +148,13 @@ public class Cola {
         return fichas;
     }
     
+    /**
+     * Busca un paciente por su número de cédula
+     * @author: Brandon Sojo Acuña
+     * @param cedula: cédula del paciente a buscar
+     * @return: paciente encontrado o null si no existe
+     */
+    
      public Paciente buscarPaciente(String cedula){
         Nodo temp = primero; // crear una variable temp para recorrer la estructura de datos sin alterar      
         while (temp != null){
@@ -112,6 +165,13 @@ public class Cola {
         }
         return null;
     }
+     
+     /**
+     * Elimina un paciente de la cola por abandono
+     * @author: Jose Rolando Salas Sanabria
+     * @param nPaciente: paciente que abandona la cola
+     * @see EDG7-11
+     */
      
     public void abandonarCola(Paciente nPaciente){
         
@@ -159,6 +219,14 @@ public class Cola {
         
     }
     
+    /**
+     * Asigna una ficha a un nuevo paciente y lo encola
+     * @author: Brandon Sojo Acuña
+     * @param nPaciente: paciente a registrar
+     * @param tipo: tipo de atención (1: Preferencial, 2: Regular)
+     * @see EDG7-9
+     */
+    
     public void seleccionarFicha(Paciente nPaciente,String tipo){
         nPaciente.setHorallegada(LocalDateTime.now());
         if(tipo.equals("1")){
@@ -183,7 +251,13 @@ public class Cola {
         
     }
  
-   
+   /**
+    * Muestra las fichas pendientes de ambas colas en un cuadro de diálogo
+    * @author: Alex Padilla Chinchilla
+    * @param colaPref: cola de pacientes preferenciales
+    * @param colaReg: cola de pacientes regulares
+    * @see EDG7-12
+    */
    
    public void mostrarFichas(Cola colaPref, Cola colaReg) {
         StringBuilder sb = new StringBuilder("<html>");
