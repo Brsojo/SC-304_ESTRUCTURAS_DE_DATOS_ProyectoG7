@@ -16,6 +16,9 @@ public class Paciente {
     private String Ficha;
     private LocalDateTime horallegada;
     private LocalDateTime horaSalida;
+    private LocalDateTime horaAtencion;
+    
+
     
 
     public Paciente() {
@@ -126,7 +129,30 @@ public class Paciente {
     public void setHoraSalida(LocalDateTime horaSalida) {
         this.horaSalida = horaSalida;
     }
+
+    public LocalDateTime getHoraAtencion() {
+        return horaAtencion;
+    }
+
+    public void setHoraAtencion(LocalDateTime horaAtencion) {
+        this.horaAtencion = horaAtencion;
+    }
     
-    
-    
+    /**
+     * convierte el objeto a String, en este caso para poder usarlo para mostrar citas en la bitacora
+     * @return
+     */
+    public String toStringBitacora(){
+
+        return "Ficha: " + Ficha + " Fecha de atencion: " + horaAtencion + toString();
+    }
+    /**
+     * 
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "nombre: " + nombre + ", cedula: " + cedula + ", Ficha: " + Ficha + ", horallegada: " + horallegada
+                + ", horaAtencion: " + horaAtencion;
+    }
 }

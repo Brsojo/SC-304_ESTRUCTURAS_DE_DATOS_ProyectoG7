@@ -14,9 +14,9 @@ public class ModuloPrincipal {
     private String respuesta;
     private int indice;
     
-     Cola ColaPreferencial = new Cola();
+     ColaPacientes ColaPreferencial = new ColaPacientes();
         
-     Cola ColaRegular = new Cola();
+     ColaPacientes ColaRegular = new ColaPacientes();
      
      PilaQuejas miPila = new PilaQuejas();
      
