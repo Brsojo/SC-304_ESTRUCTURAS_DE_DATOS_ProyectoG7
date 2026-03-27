@@ -7,15 +7,32 @@ public class ListaSimple {
 
     public ListaSimple() {
     }
+    
+    /**
+     * Obtiene el nodo cabeza de la lista.
+     * @author Alex Padilla Chinchilla
+     * @return el nodo cabeza de la lista
+     */
 
     public Nodo getCabeza() {
         return cabeza;
     }
+    
+    /**
+     * Establece el nodo cabeza de la lista.
+     * @author Alex Padilla Chinchilla
+     * @param cabeza el nuevo nodo cabeza
+     */
 
     public void setCabeza(Nodo cabeza) {
         this.cabeza = cabeza;
     }
     
+    /**
+     * Inserta un paciente en la lista de forma ordenada por cédula (de menor a mayor).
+     * @author Alex Padilla Chinchilla
+     * @param nPaciente el paciente a insertar en la lista
+     */
     
     public void insertarOrdenado (Paciente nPaciente){
         
@@ -41,6 +58,12 @@ public class ListaSimple {
         }
     }
     
+    /**
+     * Elimina un paciente de la lista por su nombre.
+     * @author Alex Padilla Chinchilla
+     * @param nombreEliminar el nombre del paciente a eliminar
+     */
+    
     public void eliminarNodo(String nombreEliminar){
         // Buscar el elemento a eliminar.
         Nodo actual = cabeza;
@@ -60,8 +83,14 @@ public class ListaSimple {
             anterior.setSiguiente(actual.getSiguiente());   //Saltarme la cajit que quiero eliminar
             //anterior.setSiguiente(anterior.getSiguiente().getSiguiente()); // Misma solución sin usar el actual (directametne)
     }
+    
+    /**
+     * Elimina un paciente de la lista por su nombre y retorna el nodo eliminado.
+     * @author Alex Padilla Chinchilla
+     * @param nombreEliminar el nombre del paciente a eliminar
+     * @return el nodo eliminado, o null si no se encontró
+     */
 
-    // Permite eliminar un elemento de la lsita pero retornarno el Nodo.
     public Nodo eliminarNodoConRetorno(String nombreEliminar){
         // Buscar el elemento a eliminar.
         Nodo actual = cabeza;
@@ -83,7 +112,13 @@ public class ListaSimple {
         return actual;
     }
     
-    // Busca un contacto en particular
+    /**
+     * Busca un paciente en la lista por su nombre.
+     * @author Alex Padilla Chinchilla
+     * @param nombre el nombre del paciente a buscar
+     * @return true si el paciente existe en la lista, false en caso contrario
+     */    
+
     public boolean buscarpaciente (String nombre){
         Nodo aux = cabeza; // Creo una referencia auxiliar para recorrer la lista
         while (aux != null){
@@ -94,8 +129,12 @@ public class ListaSimple {
         }
         return false;
     }
+    
+    /**
+     * Muestra en consola todos los pacientes almacenados en la bitácora.
+     * @author Alex Padilla Chinchilla
+     */
 
-    // Imprime los contactos
     public void mostrarbitacora(){
         Nodo aux = cabeza; // Creo una referencia auxiliar para recorrer la lista
         while (aux != null){
