@@ -22,6 +22,8 @@ public class ModuloPrincipal {
      
      private int contadorPreferenciales = 0;
      
+     private BitacoraCitasDia bitacoraDelDia = new BitacoraCitasDia();
+     
     public ModuloPrincipal(){
     
     }
@@ -60,6 +62,7 @@ public class ModuloPrincipal {
                     + "\n3)Abandonar Cola de Pacientes"
                     + "\n4)Mostrar Fichas Pendientes"
                     + "\n5)Mostrar Quejas Recibidas"
+                    + "\n6)Consultar Bitácora de Citas del Día"
                     + "\n\n0)Regresar");
                     if(respuesta==null){
                         respuesta="0";
@@ -111,6 +114,9 @@ public class ModuloPrincipal {
                         case 5:
                             //JOptionPane.showMessageDialog(null, "Mostrar Quejas Recibidas");
                             miPila.quejasRecibidas();
+                            break;
+                        case 6:
+                            bitacoraDelDia.consultarBitacoraDia();
                             break;
                         case 0:
                             break;
@@ -174,6 +180,8 @@ public class ModuloPrincipal {
 
     
     if (atendido != null) {
+        atendido.setHoraAtencion(LocalDateTime.now());
+        bitacoraDelDia.insertarOrdenado(atendido);
         JOptionPane.showMessageDialog(null,"Ficha # " + atendido.getFicha() + 
                            " con cédula " + atendido.getCedula() + 
                            " pasar a consulta médica.");
