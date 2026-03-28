@@ -2,21 +2,38 @@ package com.mycompany.ed_g7_proyectofinal;
 
 public class NodoDoble {
 
+    private ListaCircular historicoMedicamentosPrescritos;
+    private ListaCircular historicoCitas;
+    private Paciente paciente;
     private NodoDoble anterior;
-    private int dato;
     private NodoDoble siguiente;
 
-    public NodoDoble(int dato) {
-        this.dato = dato;
-        this.anterior = this.siguiente = null;
+    
+
+    public NodoDoble( Paciente paciente) {
+        this.historicoMedicamentosPrescritos = new ListaCircular();
+        this.historicoCitas = new ListaCircular();
+        this.paciente = paciente;
+    }
+
+    public ListaCircular getHistoricoMedicamentosPrescritos() {
+        return historicoMedicamentosPrescritos;
+    }
+
+    public ListaCircular getHistoricoCitas() {
+        return historicoCitas;
+    }
+
+     public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 
     public NodoDoble getAnterior() {
         return anterior;
-    }
-
-    public int getDato() {
-        return dato;
     }
 
     public NodoDoble getSiguiente() {
@@ -25,10 +42,6 @@ public class NodoDoble {
 
     public void setAnterior(NodoDoble anterior) {
         this.anterior = anterior;
-    }
-
-    public void setDato(int dato) {
-        this.dato = dato;
     }
 
     public void setSiguiente(NodoDoble siguiente) {
