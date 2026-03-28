@@ -22,7 +22,7 @@ public class ED_G7_ProyectoFinal {
         ModuloPrincipal MP = new ModuloPrincipal();
         MP.MenuPrincipal();
         
-        System.out.println("probandopush");                     
+                      
         
         
     }
