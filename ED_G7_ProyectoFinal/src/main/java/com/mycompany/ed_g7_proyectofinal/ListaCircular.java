@@ -25,8 +25,8 @@ public class ListaCircular {
         this.ultimo = ultimo;
     }
     
-    public void insertaOrdenado (int valor){
-        Nodo nuevoNodo = new Nodo (valor);
+    public void insertaOrdenado (Paciente paciente){
+        Nodo nuevoNodo = new Nodo (paciente);
         // Caso 1: Lista está vacía.
         if (this.getPrimero() == null){
             primero = nuevoNodo;  // Pongo a apuntar el primero a la nueva caja-
@@ -35,7 +35,7 @@ public class ListaCircular {
         
         }else{
         // Caso 2: El elemento a insertar es menor igual al primero. Lo inserto a la izquierda.
-            if (valor <= primero.getDato()){
+            if (paciente.getCedula().compareTo(primero.getMiPaciente().getCedula()) <= 0){
                 
                 nuevoNodo.setSiguiente(primero);    // Amara la nueva cajita al primero.
                 primero = nuevoNodo;                // Muevo el primero al nuevo primero.
@@ -43,7 +43,7 @@ public class ListaCircular {
                 
             }else {  
         // Caso 3: El elemento a insertar es mayor igual al último.
-                if (ultimo.getDato() <= valor){
+                if (ultimo.getMiPaciente().getCedula().compareTo(paciente.getCedula()) <= 0){
                     ultimo.setSiguiente(nuevoNodo);  // Amarramos el último a la nueva cajita.
                     ultimo = nuevoNodo;             // Mover el último
                     ultimo.setSiguiente(primero);   // ligar el último al primero para hacerlo circular.
@@ -52,7 +52,8 @@ public class ListaCircular {
                 // Caso 4: El elemento a insertar va en una posición insterna de la lista,
                 // Hay que iterar. (Ciclo).
                     Nodo temp = primero;
-                    while (temp.getSiguiente().getDato() < valor){
+                    while (temp.getSiguiente().getMiPaciente().getCedula()
+                            .compareTo(paciente.getCedula())< 0){
                         temp = temp.getSiguiente();
                     }
                     nuevoNodo.setSiguiente(temp.getSiguiente()); // Amarra la nueva caja al resto de la lista.
@@ -64,7 +65,19 @@ public class ListaCircular {
     }
     
         public void recorrer(){
-            // Tarea completar este método con el código de filmina 5
-        
-        }
+            if (primero == null) {
+                System.out.println("Lista vacía");
+                return;
+            }
+            Nodo actual = primero;
+            
+            do {
+                System.out.println(
+                        actual.getMiPaciente().getNombre() + " - " +
+                                actual.getMiPaciente().getCedula()
+                );
+                actual = actual.getSiguiente();
+
+            } while (actual != primero);
+        }        
 }
