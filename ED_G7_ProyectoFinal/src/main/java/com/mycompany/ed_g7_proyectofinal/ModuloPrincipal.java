@@ -198,13 +198,19 @@ public class ModuloPrincipal {
         JOptionPane.showMessageDialog(null,"Ficha # " + atendido.getFicha() + 
                            " con cédula " + atendido.getCedula() + 
                            " pasar a consulta médica.");
-        NodoDoble paciente = expedientes.retornaPaciente(atendido.getCedula());
-        if(paciente!= null) {// si el metodo anterior encuentra al paciente en los expedientes
+        NodoDoble paciente = expedientes.retornaPaciente(atendido.getCedula()); // busca paciente en expedientes
+        if(paciente != null) {// si el metodo anterior encuentra al paciente en los expedientes
             paciente.getHistoricoMedicamentosPrescritos().insertarMedicamento(LocalDateTime.now(), medicamento);
 
             paciente.getHistoricoCitas().insertarCita(LocalDateTime.now(), doctor, diagnostico);
         }else
-            expedientes.insertaOrdenado(atendido);
+            expedientes.insertaOrdenado(atendido);//crea el expediente del paciente si no lo encuentra
+
+            paciente = expedientes.retornaPaciente(atendido.getCedula()); //lo vuelve a buscar para poder insertar la cita y medicamentos
+
+            paciente.getHistoricoMedicamentosPrescritos().insertarMedicamento(LocalDateTime.now(), medicamento);
+
+            paciente.getHistoricoCitas().insertarCita(LocalDateTime.now(), doctor, diagnostico);
 
     } else {
         JOptionPane.showMessageDialog(null,"No hay pacientes pendientes en ninguna cola.");

@@ -24,7 +24,6 @@ public class ExpedientePaciente extends ListaDobleCircular{
     public NodoDoble retornaPaciente(String cedula){
 
         if (getPrimero() == null) {
-            System.out.println("El expediente de pacientes está vacío");
             return null;
         }
 
@@ -43,10 +42,11 @@ public class ExpedientePaciente extends ListaDobleCircular{
     }
 
     public void mostrarExpediente(){
-        if (getPrimero() == null) {
-        System.out.println("El expediente de pacientes está vacío");
-        return;
-    }
+
+         if (getPrimero() == null) {
+            System.out.println("El expediente de pacientes está vacío");
+            return;
+        }
 
         NodoDoble aux = getPrimero();
 
@@ -54,8 +54,8 @@ public class ExpedientePaciente extends ListaDobleCircular{
             int opcion = Integer.parseInt(JOptionPane.showInputDialog(null, "EXPEDIENTE \n"+ "Paciente: " + aux.getPaciente().getNombre()+"\n"
             +"cedula: " + aux.getPaciente().getCedula()+"\n"
             +"Edad: " + aux.getPaciente().getEdad()+"\n"
-            +"Genero: " + aux.getPaciente().getGenero()+"\n"+
-            aux.getHistoricoCitas().recorrer()+"\n"+ aux.getHistoricoMedicamentosPrescritos().recorrer()+"\n"+"\n"+"1. Siguiente expediente"+"\n"
+            +"Genero: " + aux.getPaciente().getGenero()+"\n"+"-----------------\n"+"HISTORIAL DE CITAS\n"+
+            aux.getHistoricoCitas().mostrarHistorial()+"\n"+ "-----------------\n"+"HISTORIAL DE MEDICAMENTOS PRESCRITOS\n" + aux.getHistoricoMedicamentosPrescritos().mostrarMedicamentos()+"\n"+"\n"+"1. Siguiente expediente"+"\n"
             + "2. Expediente anterior"+"\n"+"3. Volver al menu"));
 
             if (opcion == 1){
@@ -69,16 +69,6 @@ public class ExpedientePaciente extends ListaDobleCircular{
                 return;
             }
         } while (true);
-    }
-
-    public void agregarCitaLista(){
-
-
-    }
-
-    public void agregarMedicamentosLista(){
-
-
     }
 
 }

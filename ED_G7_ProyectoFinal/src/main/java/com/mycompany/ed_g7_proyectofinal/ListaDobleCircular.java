@@ -43,7 +43,7 @@ public class ListaDobleCircular {
                 primero = nuevoNodo;              // muevo el primero al nuevo nodo.
             }else {  
         // Caso 3: El elemento a insertar es mayor igual al último.
-                if (ultimo.getPaciente().getCedula().compareTo(paciente.getCedula()) <= 0){
+                if (ultimo.getPaciente().getCedula().compareTo(nuevoNodo.getPaciente().getCedula()) <= 0){
                     
                     ultimo.setSiguiente(nuevoNodo);  // Ponel sgte del último apuntando a la nueva cajita.
                     nuevoNodo.setSiguiente(primero);  // Hacerla circular.
