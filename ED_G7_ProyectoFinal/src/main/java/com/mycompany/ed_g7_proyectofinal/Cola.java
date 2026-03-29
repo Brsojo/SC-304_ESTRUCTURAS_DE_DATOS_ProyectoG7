@@ -7,16 +7,33 @@ package com.mycompany.ed_g7_proyectofinal;
 import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 
-/**
+/**Implementa una estructura de datos tipo Cola (FIFO)
+ * para la gestión de pacientes en el sistema hospitalario.
+ *
+ * Esta cola es utilizada para manejar pacientes preferenciales
+ * y regulares, permitiendo:
+ * - Encolar pacientes
+ * - Desencolar pacientes
+ * - Buscar pacientes por cédula
+ * - Manejar abandono de cola
+ * - Asignar fichas de atención
+ *
+ * La clase forma parte del flujo principal de atención
+ * del sistema Hospital Su Salud.
  *
  * @author Brandon
  */
 public class Cola {
-    private Nodo primero; // apunta al primer elemento de la cola
+    /** Referencia al primer nodo de la cola */
+    private Nodo primero; 
+    /** Referencia al último nodo de la cola */
     private Nodo ultimo; // apunta al ultimo elemento de la cola
     
     
-
+    /**
+     * Constructor de la cola.
+     * Inicializa la cola como vacía.
+     */
     public Cola() {
         this.primero=null;
         this.ultimo=null;
@@ -42,6 +59,10 @@ public class Cola {
         return ultimo;
     }
     
+    /***
+     * Define el ultimo
+     * @param ultimo nodo a registrar
+     */
     public void setUltimo(Nodo ultimo) {
         this.ultimo = ultimo;
     }

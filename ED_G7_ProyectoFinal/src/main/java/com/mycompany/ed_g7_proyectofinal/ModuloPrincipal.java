@@ -8,27 +8,50 @@ import java.time.LocalDateTime;
 
 import javax.swing.JOptionPane;
 /**
+ * Clase principal que controla el flujo general del sistema hospitalario.
  *
- * @author Rolando
+ * Esta clase se encarga de:
+ * - Mostrar y gestionar los menús del sistema
+ * - Coordinar la atención de pacientes
+ * - Manejar colas preferenciales y regulares
+ * - Registrar citas y medicamentos
+ * - Consultar el expediente único de los pacientes
+ *
+ * Actúa como punto central de interacción entre el usuario
+ * y las distintas estructuras de datos del sistema.
+ *
+ * @author Rolando Salas
+ * @version 2.0
  */
 public class ModuloPrincipal {
+    /** Opción ingresada por el usuario en los menús */
     private String respuesta;
+    /** Índice numérico de la opción seleccionada */
     private int indice;
     
-     ColaPacientes ColaPreferencial = new ColaPacientes();
-        
-     ColaPacientes ColaRegular = new ColaPacientes();
-     
-     PilaQuejas miPila = new PilaQuejas();
-     
-     private int contadorPreferenciales = 0;
-     
-     BitacoraCitasDia bitacoraDelDia = new BitacoraCitasDia();
-
-     ExpedientePaciente expedientes = new ExpedientePaciente();
-     
-    public ModuloPrincipal(){
+    /** Cola de pacientes preferenciales */ 
+    ColaPacientes ColaPreferencial = new ColaPacientes();
     
+    /** Cola de pacientes regulares */    
+    ColaPacientes ColaRegular = new ColaPacientes();
+    
+    /** Pila utilizada para registrar quejas de pacientes */
+    PilaQuejas miPila = new PilaQuejas();
+    
+    /** Contador de pacientes preferenciales atendidos consecutivamente */
+    private int contadorPreferenciales = 0;
+     
+    /** Lista simple utilizada como bitácora de citas del día */
+    BitacoraCitasDia bitacoraDelDia = new BitacoraCitasDia();
+
+    /** Lista doble circular que almacena los expedientes únicos de los pacientes */
+    ExpedientePaciente expedientes = new ExpedientePaciente();
+    
+    /**
+     * Constructor de la clase ModuloPrincipal.
+     * Inicializa las estructuras de datos del sistema.
+     */
+    public ModuloPrincipal(){
     }
     
      /**
@@ -44,7 +67,9 @@ public class ModuloPrincipal {
                     +"*****Bienvenido al Sistema de control de pacientes*******\n\n"
                     +"***************** MENU PRINCIPAL *****************\n"
                     + "\n1)Gestionar Llegada de Pacientes"
-                    + "\n2)Ayuda"
+                    + "\n2)Consultar Bitácora de Citas del Día"
+                    + "\n3)Consultar expediente de pacientes"                    
+                    + "\n4)Ayuda"
                     + "\n0)Salir");
             if(respuesta==null){
                 respuesta="0";
@@ -65,8 +90,6 @@ public class ModuloPrincipal {
                     + "\n3)Abandonar Cola de Pacientes"
                     + "\n4)Mostrar Fichas Pendientes"
                     + "\n5)Mostrar Quejas Recibidas"
-                    + "\n6)Consultar Bitácora de Citas del Día"
-                    + "\n7)Consultar expediente de pacientes"
                     + "\n\n0)Regresar");
                     if(respuesta==null){
                         respuesta="0";
@@ -120,13 +143,7 @@ public class ModuloPrincipal {
                         case 5:
                             //JOptionPane.showMessageDialog(null, "Mostrar Quejas Recibidas");
                             miPila.quejasRecibidas();
-                            break;
-                        case 6:
-                            bitacoraDelDia.consultarBitacoraDia();
-                            break;
-                        case 7:
-                            expedientes.mostrarExpediente();
-                        break;
+                            break;                       
                         case 0:
                             break;
                         default:
@@ -136,40 +153,45 @@ public class ModuloPrincipal {
                     indice=1;
                     break;
                 case 2:
+                    bitacoraDelDia.consultarBitacoraDia();
+                    break;
+                case 3:
+                    expedientes.mostrarExpediente();
+                    break;
+                case 4:
                     JOptionPane.showMessageDialog(null, "**************Version de la herramienta **************"
-                    +"\n Avance 1 V 1.0.7"
+                    +"\n Avance 2 V 2.0.7"
                     +"\n\n Dessarrolado por:"
                     +"\n FI25049164  ILAMA PIEDRA MATTHEW"
                     +"\n FI24041046  PADILLA CHINCHILLA ALEX"
                     +"\n FI25047245  SALAS SANABRIA JOSE ROLANDO"
                     +"\n FI24038193  SOJO ACUÑA BRANDON YAHIR"
-                    );
-                    
+                    );                    
                     break;
                 case 0:
                     break;
                 default:
                     JOptionPane.showMessageDialog(null, "Error...");
                     break;
-            }
+            }                   
                     
-            
-        
            } while (indice != 0);
     }
     
     /**
      * Atiende al siguiente paciente aplicando el algoritmo 2:1
      * (2 preferenciales por cada 1 regular)
+     * 
+     *  * Durante la atención:
+     * - Se registra la cita médica
+     * - Se registran los medicamentos prescritos
+     * - Se inserta el paciente en el expediente único si no existe
+     * - Se almacena el paciente en la bitácora de citas del día
      * @author: Matthew Ilama Piedra
      */
     
     public void atenderPaciente() {
     Paciente atendido = null;
-
-    String doctor = JOptionPane.showInputDialog("Ingrese el nombre del doctor: ") ;
-    String diagnostico = JOptionPane.showInputDialog("Ingrese el diagnostico: ") ;
-    String medicamento = JOptionPane.showInputDialog("Ingrese el medicamento recetado: ") ;
 
     // Hay al menos un paciente preferencial y el contador es menor a dos, o no hay regulares
     if (!ColaPreferencial.estaVacia() && (contadorPreferenciales < 2 || ColaRegular.estaVacia())) {
@@ -190,7 +212,6 @@ public class ModuloPrincipal {
         contadorPreferenciales = 0; // IMPORTANTE: Al pasar un regular, se reinicia el ciclo
         
     }
-
     
     if (atendido != null) {
 // Se obtiene la fecha actual sin nanosegundos para mantener consistencia en el sistema
@@ -201,19 +222,25 @@ public class ModuloPrincipal {
         JOptionPane.showMessageDialog(null,"Ficha # " + atendido.getFicha() + 
                            " con cédula " + atendido.getCedula() + 
                            " pasar a consulta médica.");
+        
+        String doctor = JOptionPane.showInputDialog("Ingrese el nombre del doctor: ") ;
+        String diagnostico = JOptionPane.showInputDialog("Ingrese el diagnostico: ") ;
+        String medicamento = JOptionPane.showInputDialog("Ingrese el medicamento recetado: ") ;
         NodoDoble paciente = expedientes.retornaPaciente(atendido.getCedula()); // busca paciente en expedientes
+        
         if(paciente != null) {// si el metodo anterior encuentra al paciente en los expedientes
             paciente.getHistoricoMedicamentosPrescritos().insertarMedicamento(ahora, medicamento);
 
             paciente.getHistoricoCitas().insertarCita(ahora, doctor, diagnostico);
-        }else
-            expedientes.insertaOrdenado(atendido);//crea el expediente del paciente si no lo encuentra
+        }else{
+           JOptionPane.showMessageDialog(null,"Paciente "+atendido.getNombre()+"asiste a consulta por primera vez"); 
+           expedientes.insertaOrdenado(atendido);//crea el expediente del paciente si no lo encuentra
+        }
+        paciente = expedientes.retornaPaciente(atendido.getCedula()); //lo vuelve a buscar para poder insertar la cita y medicamentos
 
-            paciente = expedientes.retornaPaciente(atendido.getCedula()); //lo vuelve a buscar para poder insertar la cita y medicamentos
+        paciente.getHistoricoMedicamentosPrescritos().insertarMedicamento(ahora, medicamento);
 
-            paciente.getHistoricoMedicamentosPrescritos().insertarMedicamento(ahora, medicamento);
-
-            paciente.getHistoricoCitas().insertarCita(ahora, doctor, diagnostico);
+        paciente.getHistoricoCitas().insertarCita(ahora, doctor, diagnostico);
 
     } else {
         JOptionPane.showMessageDialog(null,"No hay pacientes pendientes en ninguna cola.");

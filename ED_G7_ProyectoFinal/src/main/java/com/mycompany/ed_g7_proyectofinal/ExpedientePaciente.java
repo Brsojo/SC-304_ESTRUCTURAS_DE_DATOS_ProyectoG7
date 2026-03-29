@@ -1,6 +1,34 @@
 package com.mycompany.ed_g7_proyectofinal;
 import javax.swing.JOptionPane;
+
+
+/**
+ * Gestiona el expediente de pacientes usando una estructura de datos basada en una
+ * {@code ListaDobleCircular}. Cada nodo ({@code NodoDoble}) representa un paciente y
+ * mantiene referencias a su historial de citas y medicamentos prescritos.
+ *
+ * Esta clase ofrece operaciones para:
+ * 
+ *   Buscar un paciente dentro del expediente.
+ *   Retornar el nodo del paciente (si existe) a partir de su cédula.
+ *   Mostrar de forma interactiva (con {@code JOptionPane}) los expedientes,
+ *       permitiendo avanzar/retroceder en la lista.
+ *
+ *
+ * @author Brandon Sojo Acuña
+ *
+ */
+
 public class ExpedientePaciente extends ListaDobleCircular{
+
+    
+ /**
+     * Determina si existe un paciente en el expediente según el valor recibido.
+     *
+     * @param cedula valor a buscar 
+     * @return true si encuentra una coincidencia en algún nodo; code false si no existe
+     *         o si la lista está vacía.
+     */
 
     public Boolean buscarPaciente(String cedula){
          if (getPrimero() == null) {
@@ -11,7 +39,7 @@ public class ExpedientePaciente extends ListaDobleCircular{
         NodoDoble aux = getPrimero();
 
          do { 
-            if(aux.getPaciente().getNombre().equals(cedula)){
+            if(aux.getPaciente().getCedula().equals(cedula)){
                 return true;
             }
 
@@ -20,6 +48,18 @@ public class ExpedientePaciente extends ListaDobleCircular{
          } while (aux != getPrimero());
         return false;
     }
+
+    
+    /**
+     * Retorna el nodo  asociado a un paciente cuya cédula coincida
+     * con la cédula indicada.
+     *
+     * Este método recorre la lista circular desde  getPrimero() hasta volver al inicio.
+     *
+     * @param cedula cédula del paciente a localizar.
+     * @return el NodoDoble del paciente si se encuentra;  null si no existe
+     *         o si el expediente está vacío.
+     */
 
     public NodoDoble retornaPaciente(String cedula){
 
@@ -40,6 +80,22 @@ public class ExpedientePaciente extends ListaDobleCircular{
 
         return null; // si no lo encuentra
     }
+
+    
+    /**
+     * Muestra de forma interactiva el expediente de pacientes mediante cuadros de diálogo, 
+     * incluyendo datos del paciente y sus historiales asociados.
+     *
+     * ,Si el expediente está vacío, informa por consola y finaliza.,
+     *
+     * Se muestra:
+     *   Nombre, cédula, edad y género del paciente.
+     *   Historial de citas
+     *   Historial de medicamentos prescrito
+     * 
+     * Permite navegar por el historico de expedientes moviendose hacia
+     * atras o hacia adelante    
+     */
 
     public void mostrarExpediente(){
 

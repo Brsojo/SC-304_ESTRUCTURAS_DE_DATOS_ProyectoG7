@@ -4,6 +4,11 @@ import java.time.LocalDateTime;
 
 import javax.swing.JOptionPane;
 
+/**
+ * Clase que hereda de la clase Cola y agrega metodos adicionales
+ * @author Brandon Sojo Acuña
+ */
+
 public class ColaPacientes extends Cola{
 
     
