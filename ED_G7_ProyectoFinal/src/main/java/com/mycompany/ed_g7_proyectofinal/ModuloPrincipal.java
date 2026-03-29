@@ -222,26 +222,23 @@ public class ModuloPrincipal {
         JOptionPane.showMessageDialog(null,"Ficha # " + atendido.getFicha() + 
                            " con cédula " + atendido.getCedula() + 
                            " pasar a consulta médica.");
-        
+         
+        NodoDoble paciente = expedientes.retornaPaciente(atendido.getCedula()); // busca paciente en expedientes
+         if (paciente == null) {
+            JOptionPane.showMessageDialog(null,
+                "Paciente " + atendido.getNombre() + " asiste a consulta por primera vez");
+            expedientes.insertaOrdenado(atendido);
+            paciente = expedientes.retornaPaciente(atendido.getCedula()); // ya existe
+        }
+         
         String doctor = JOptionPane.showInputDialog("Ingrese el nombre del doctor: ") ;
         String diagnostico = JOptionPane.showInputDialog("Ingrese el diagnostico: ") ;
         String medicamento = JOptionPane.showInputDialog("Ingrese el medicamento recetado: ") ;
-        NodoDoble paciente = expedientes.retornaPaciente(atendido.getCedula()); // busca paciente en expedientes
-        
-        if(paciente != null) {// si el metodo anterior encuentra al paciente en los expedientes
-            paciente.getHistoricoMedicamentosPrescritos().insertarMedicamento(ahora, medicamento);
-
-            paciente.getHistoricoCitas().insertarCita(ahora, doctor, diagnostico);
-        }else{
-           JOptionPane.showMessageDialog(null,"Paciente "+atendido.getNombre()+"asiste a consulta por primera vez"); 
-           expedientes.insertaOrdenado(atendido);//crea el expediente del paciente si no lo encuentra
-        }
-        paciente = expedientes.retornaPaciente(atendido.getCedula()); //lo vuelve a buscar para poder insertar la cita y medicamentos
-
+       
         paciente.getHistoricoMedicamentosPrescritos().insertarMedicamento(ahora, medicamento);
-
         paciente.getHistoricoCitas().insertarCita(ahora, doctor, diagnostico);
 
+ 
     } else {
         JOptionPane.showMessageDialog(null,"No hay pacientes pendientes en ninguna cola.");
     }
