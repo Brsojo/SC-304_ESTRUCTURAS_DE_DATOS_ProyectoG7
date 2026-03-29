@@ -193,28 +193,51 @@ public class ModuloPrincipal {
 
     
     if (atendido != null) {
-        atendido.setHoraAtencion(LocalDateTime.now());
+// Se obtiene la fecha actual sin nanosegundos para mantener consistencia en el sistema
+        LocalDateTime ahora = LocalDateTime.now().withNano(0); 
+        
+        atendido.setHoraAtencion(ahora);
         bitacoraDelDia.insertarOrdenado(atendido);
         JOptionPane.showMessageDialog(null,"Ficha # " + atendido.getFicha() + 
                            " con cédula " + atendido.getCedula() + 
                            " pasar a consulta médica.");
         NodoDoble paciente = expedientes.retornaPaciente(atendido.getCedula()); // busca paciente en expedientes
         if(paciente != null) {// si el metodo anterior encuentra al paciente en los expedientes
-            paciente.getHistoricoMedicamentosPrescritos().insertarMedicamento(LocalDateTime.now(), medicamento);
+            paciente.getHistoricoMedicamentosPrescritos().insertarMedicamento(ahora, medicamento);
 
-            paciente.getHistoricoCitas().insertarCita(LocalDateTime.now(), doctor, diagnostico);
+            paciente.getHistoricoCitas().insertarCita(ahora, doctor, diagnostico);
         }else
             expedientes.insertaOrdenado(atendido);//crea el expediente del paciente si no lo encuentra
 
             paciente = expedientes.retornaPaciente(atendido.getCedula()); //lo vuelve a buscar para poder insertar la cita y medicamentos
 
-            paciente.getHistoricoMedicamentosPrescritos().insertarMedicamento(LocalDateTime.now(), medicamento);
+            paciente.getHistoricoMedicamentosPrescritos().insertarMedicamento(ahora, medicamento);
 
-            paciente.getHistoricoCitas().insertarCita(LocalDateTime.now(), doctor, diagnostico);
+            paciente.getHistoricoCitas().insertarCita(ahora, doctor, diagnostico);
 
     } else {
         JOptionPane.showMessageDialog(null,"No hay pacientes pendientes en ninguna cola.");
     }
 }
-         
+    
+/**
+ * Convierte un objeto LocalDateTime a un formato de texto legible sin nanosegundos.
+ * El formato generado es: yyyy-MM-dd HH:mm:ss
+ * 
+ * Este método evita el formato por defecto de LocalDateTime (que incluye la 'T')
+ * y permite mostrar fechas de forma más clara en el sistema.
+ * 
+ * @param fecha objeto LocalDateTime que se desea formatear
+ * @return String con la fecha formateada o "Sin fecha" si es null
+ */    
+    public static String formatearFecha(LocalDateTime fecha) {
+        if (fecha == null) return "Sin fecha";
+
+        return fecha.getYear() + "-" +
+            String.format("%02d", fecha.getMonthValue()) + "-" +
+            String.format("%02d", fecha.getDayOfMonth()) + " " +
+            String.format("%02d", fecha.getHour()) + ":" +
+            String.format("%02d", fecha.getMinute()) + ":" +
+            String.format("%02d", fecha.getSecond());         
+    }
 }

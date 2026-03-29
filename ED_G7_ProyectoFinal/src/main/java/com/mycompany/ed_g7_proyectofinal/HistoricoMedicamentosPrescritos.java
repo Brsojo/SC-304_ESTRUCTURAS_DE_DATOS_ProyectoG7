@@ -69,6 +69,9 @@ public class HistoricoMedicamentosPrescritos extends ListaCircular{
 
     /**
      * Muestra el historial de medicamentos registrados
+     * 
+     * Las fechas se presentan en un formato legible (yyyy-MM-dd HH:mm:ss),
+     * evitando el formato por defecto de LocalDateTime.
      * @author Matthew
      * @return texto con los medicamentos
      */
@@ -82,7 +85,9 @@ public class HistoricoMedicamentosPrescritos extends ListaCircular{
         NodoMedicamento temp = primero;
 
         do {
-            sb.append("Fecha: ").append(temp.getFecha()).append("\n");
+            sb.append("Fecha: ")
+                    .append(ModuloPrincipal.formatearFecha(temp.getFecha()))
+                    .append("\n");
             sb.append("Medicamento: ").append(temp.getMedicamento()).append("\n\n");
 
             temp = temp.getSiguiente();

@@ -69,9 +69,13 @@ public class HistoricoCitas extends ListaCircular {
     }
 
     /**
-     * Muestra el historial completo de citas registradas
+     * Muestra el historial completo de citas registradas.
+     * 
+     * Las fechas se presentan en un formato legible (yyyy-MM-dd HH:mm:ss),
+     * evitando el formato por defecto de LocalDateTime.
+     * 
      * @author Matthew
-     * @return texto con todas las citas
+     * @return texto con todas las citas formateadas
      */
     public String mostrarHistorial() {
 
@@ -83,7 +87,9 @@ public class HistoricoCitas extends ListaCircular {
         NodoCita temp = primero;
 
         do {
-            sb.append("Fecha: ").append(temp.getFecha()).append("\n");
+            sb.append("Fecha: ")
+                    .append(ModuloPrincipal.formatearFecha(temp.getFecha()))
+                    .append("\n");
             sb.append("Doctor: ").append(temp.getDoctor()).append("\n");
             sb.append("Diagnóstico: ").append(temp.getDiagnostico()).append("\n\n");
 
