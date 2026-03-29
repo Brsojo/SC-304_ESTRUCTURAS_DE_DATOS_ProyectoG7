@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * 
  * @author Matthew
  */
-public class HistoricoMedicamentosPrescritos {
+public class HistoricoMedicamentosPrescritos extends ListaCircular{
 
     private NodoMedicamento primero;
     private NodoMedicamento ultimo;
@@ -21,28 +21,28 @@ public class HistoricoMedicamentosPrescritos {
     /**
      * Obtiene el primer nodo
      */
-    public NodoMedicamento getPrimero() {
+    public NodoMedicamento getPrimeroMedicamento() {
         return primero;
     }
 
     /**
-     * Establece el primer nodo
+     * Inserta un medicamento en la lista circular
      */
-    public void setPrimero(NodoMedicamento primero) {
+    public void setPrimeroMedicamento(NodoMedicamento primero) {
         this.primero = primero;
     }
 
     /**
      * Obtiene el último nodo
      */
-    public NodoMedicamento getUltimo() {
+    public NodoMedicamento getUltimoMedicamento() {
         return ultimo;
     }
 
     /**
      * Establece el último nodo
      */
-    public void setUltimo(NodoMedicamento ultimo) {
+    public void setUltimoMedicamento(NodoMedicamento ultimo) {
         this.ultimo = ultimo;
     }
 

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  * 
  * @author Matthew
  */
-public class HistoricoCitas {
+public class HistoricoCitas extends ListaCircular {
 
     private NodoCita primero;
     private NodoCita ultimo;
@@ -21,28 +21,28 @@ public class HistoricoCitas {
     /**
      * Obtiene el primer nodo de la lista
      */
-    public NodoCita getPrimero() {
+    public NodoCita getPrimeroCita() {
         return primero;
     }
 
     /**
      * Establece el primer nodo
      */
-    public void setPrimero(NodoCita primero) {
+    public void setPrimeroCita(NodoCita primero) {
         this.primero = primero;
     }
 
     /**
      * Obtiene el último nodo
      */
-    public NodoCita getUltimo() {
+    public NodoCita getUltimoCita() {
         return ultimo;
     }
 
     /**
      * Establece el último nodo
      */
-    public void setUltimo(NodoCita ultimo) {
+    public void setUltimoCita(NodoCita ultimo) {
         this.ultimo = ultimo;
     }
 

@@ -4,8 +4,9 @@
  */
 package com.mycompany.ed_g7_proyectofinal;
 
-import javax.swing.JOptionPane;
 import java.time.LocalDateTime;
+
+import javax.swing.JOptionPane;
 /**
  *
  * @author Rolando
@@ -166,12 +167,9 @@ public class ModuloPrincipal {
     public void atenderPaciente() {
     Paciente atendido = null;
 
-
-    // FALTA HACER LA PARTE QUE PIDE EL PROFE DE PEDIR EL NOMBRE DE DOC ETC...
-        
-
-
-
+    String doctor = JOptionPane.showInputDialog("Ingrese el nombre del doctor: ") ;
+    String diagnostico = JOptionPane.showInputDialog("Ingrese el diagnostico: ") ;
+    String medicamento = JOptionPane.showInputDialog("Ingrese el medicamento recetado: ") ;
 
     // Hay al menos un paciente preferencial y el contador es menor a dos, o no hay regulares
     if (!ColaPreferencial.estaVacia() && (contadorPreferenciales < 2 || ColaRegular.estaVacia())) {
@@ -201,9 +199,10 @@ public class ModuloPrincipal {
                            " con cédula " + atendido.getCedula() + 
                            " pasar a consulta médica.");
         NodoDoble paciente = expedientes.retornaPaciente(atendido.getCedula());
-        if(paciente!= null){// si el metodo anterior encuentra al paciente en los expedientes
-            paciente.getHistoricoMedicamentosPrescritos().insertaOrdenado(atendido);
-            paciente.getHistoricoCitas().insertaOrdenado(atendido);
+        if(paciente!= null) {// si el metodo anterior encuentra al paciente en los expedientes
+            paciente.getHistoricoMedicamentosPrescritos().insertarMedicamento(LocalDateTime.now(), medicamento);
+
+            paciente.getHistoricoCitas().insertarCita(LocalDateTime.now(), doctor, diagnostico);
         }else
             expedientes.insertaOrdenado(atendido);
 

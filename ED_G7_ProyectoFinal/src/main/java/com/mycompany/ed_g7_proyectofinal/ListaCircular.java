@@ -63,6 +63,20 @@ public class ListaCircular {
         }
         
     }
+
+protected void insertarNodo(Nodo nuevoNodo) { 
+    
+    if (primero == null) { 
+        primero = nuevoNodo; 
+        ultimo = nuevoNodo; 
+        ultimo.setSiguiente(primero); 
+    
+    } else {
+         ultimo.setSiguiente(nuevoNodo); 
+         nuevoNodo.setSiguiente(primero); 
+         ultimo = nuevoNodo;
+        } 
+    }
     
     public String recorrer(){
 
