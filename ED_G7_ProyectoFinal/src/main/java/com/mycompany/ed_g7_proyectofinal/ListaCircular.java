@@ -29,7 +29,7 @@ public class ListaCircular {
         Nodo nuevoNodo = new Nodo (paciente);
         // Caso 1: Lista está vacía.
         if (this.getPrimero() == null){
-            primero = nuevoNodo;  // Pongo a apuntar el primero a la nueva caja-
+            primero = nuevoNodo;  // Pongo a apuntar el primero a la nueva caja
             ultimo = primero;     // Igualo el último con el primero.
             ultimo.setSiguiente(primero);  // la hago circular.
         
@@ -64,20 +64,23 @@ public class ListaCircular {
         
     }
     
-        public void recorrer(){
-            if (primero == null) {
-                System.out.println("Lista vacía");
-                return;
-            }
-            Nodo actual = primero;
-            
-            do {
-                System.out.println(
-                        actual.getMiPaciente().getNombre() + " - " +
-                                actual.getMiPaciente().getCedula()
-                );
-                actual = actual.getSiguiente();
+    public String recorrer(){
 
-            } while (actual != primero);
-        }        
+        if (primero == null) {
+            return "Lista vacía";
+        }
+
+        String resultado = "";
+        Nodo actual = primero;
+
+        do {
+            resultado += actual.getMiPaciente().getNombre() + " - " +
+                        actual.getMiPaciente().getCedula() + "\n";
+
+            actual = actual.getSiguiente();
+
+        } while (actual != primero);
+
+        return resultado;
+} 
 }

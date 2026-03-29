@@ -12,7 +12,9 @@ import java.time.LocalDateTime;
  */
 public class Paciente {
     private String nombre;
-    private String cedula;    
+    private String cedula; 
+    private int edad;
+    private String genero;
     private String Ficha;
     private LocalDateTime horallegada;
     private LocalDateTime horaSalida;
@@ -24,9 +26,11 @@ public class Paciente {
     public Paciente() {
     }
 
-    public Paciente(String nombre, String cedula) {
+    public Paciente(String nombre, String cedula, int edad, String genero) {
         this.nombre = nombre;
         this.cedula = cedula;
+        this.edad = edad;
+        this.genero = genero;
         
     }
     
@@ -48,6 +52,26 @@ public class Paciente {
     
     public String getCedula() {
         return cedula;
+    }
+    
+
+    public int getEdad() {
+        return edad;
+    }
+
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+
+    public String getGenero() {
+        return genero;
+    }
+
+
+    public void setGenero(String genero) {
+        this.genero = genero;
     }
 
     /**

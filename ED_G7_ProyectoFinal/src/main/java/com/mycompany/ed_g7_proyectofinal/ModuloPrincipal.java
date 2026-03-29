@@ -22,7 +22,9 @@ public class ModuloPrincipal {
      
      private int contadorPreferenciales = 0;
      
-     private BitacoraCitasDia bitacoraDelDia = new BitacoraCitasDia();
+     BitacoraCitasDia bitacoraDelDia = new BitacoraCitasDia();
+
+     ExpedientePaciente expedientes = new ExpedientePaciente();
      
     public ModuloPrincipal(){
     
@@ -63,11 +65,12 @@ public class ModuloPrincipal {
                     + "\n4)Mostrar Fichas Pendientes"
                     + "\n5)Mostrar Quejas Recibidas"
                     + "\n6)Consultar Bitácora de Citas del Día"
+                    + "\n7)Consultar expediente de pacientes"
                     + "\n\n0)Regresar");
                     if(respuesta==null){
                         respuesta="0";
                     }
-                    if(!respuesta.matches("[0-5]")){
+                    if(!respuesta.matches("[0-7]")){
                         respuesta="9";
                     }
                     indice = Integer.parseInt(respuesta);
@@ -76,11 +79,13 @@ public class ModuloPrincipal {
                            
                             String ced=JOptionPane.showInputDialog(null, "Ingrese la cedula del paciente: ");
                             String nom =JOptionPane.showInputDialog(null, "Ingrese el nombre del paciente: ");
+                            int edad = Integer.parseInt(JOptionPane.showInputDialog(null,"Ingresese la edad del paciente"));
+                            String genero = JOptionPane.showInputDialog(null, "Ingrese el genero del paciente: ");
                             String tipo =JOptionPane.showInputDialog(null, "Tipo de atencion: \n 1. Preferencial \n 2. Regular");
                             if(tipo.equals("1")){
-                                ColaPreferencial.seleccionarFicha(temp =new Paciente(nom,ced),tipo);
+                                ColaPreferencial.seleccionarFicha(temp =new Paciente(nom,ced,edad,genero),tipo);
                             }else{
-                                ColaRegular.seleccionarFicha(temp =new Paciente(nom,ced),tipo);
+                                ColaRegular.seleccionarFicha(temp =new Paciente(nom,ced,edad,genero),tipo);
                             }
                             break;
 
@@ -118,6 +123,9 @@ public class ModuloPrincipal {
                         case 6:
                             bitacoraDelDia.consultarBitacoraDia();
                             break;
+                        case 7:
+                            expedientes.mostrarExpediente();
+                        break;
                         case 0:
                             break;
                         default:
@@ -158,6 +166,13 @@ public class ModuloPrincipal {
     public void atenderPaciente() {
     Paciente atendido = null;
 
+
+    // FALTA HACER LA PARTE QUE PIDE EL PROFE DE PEDIR EL NOMBRE DE DOC ETC...
+        
+
+
+
+
     // Hay al menos un paciente preferencial y el contador es menor a dos, o no hay regulares
     if (!ColaPreferencial.estaVacia() && (contadorPreferenciales < 2 || ColaRegular.estaVacia())) {
         
@@ -185,6 +200,13 @@ public class ModuloPrincipal {
         JOptionPane.showMessageDialog(null,"Ficha # " + atendido.getFicha() + 
                            " con cédula " + atendido.getCedula() + 
                            " pasar a consulta médica.");
+        NodoDoble paciente = expedientes.retornaPaciente(atendido.getCedula());
+        if(paciente!= null){// si el metodo anterior encuentra al paciente en los expedientes
+            paciente.getHistoricoMedicamentosPrescritos().insertaOrdenado(atendido);
+            paciente.getHistoricoCitas().insertaOrdenado(atendido);
+        }else
+            expedientes.insertaOrdenado(atendido);
+
     } else {
         JOptionPane.showMessageDialog(null,"No hay pacientes pendientes en ninguna cola.");
     }

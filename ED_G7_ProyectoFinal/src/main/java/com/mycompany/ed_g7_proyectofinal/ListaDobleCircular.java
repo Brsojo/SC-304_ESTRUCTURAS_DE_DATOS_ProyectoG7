@@ -24,8 +24,8 @@ public class ListaDobleCircular {
     }
     
     
-    public void insertaOrdenado (int valor){
-        NodoDoble nuevoNodo = new NodoDoble (valor);
+    public void insertaOrdenado (Paciente paciente){
+        NodoDoble nuevoNodo = new NodoDoble (paciente);
         // Caso 1: Lista está vacía.
         if (this.getPrimero() == null){
             primero = nuevoNodo;    // Apunto el primero a la nueva caja.
@@ -35,7 +35,7 @@ public class ListaDobleCircular {
             
         }else{
         // Caso 2: El elemento a insertar es menor igual al primero. Lo inserto a la izquierda.
-            if (valor <= primero.getDato()){
+           if (nuevoNodo.getPaciente().getCedula().compareTo(primero.getPaciente().getCedula()) <= 0){
                 nuevoNodo.setSiguiente(primero);  // Amarrar la nueva cajita al primero.
                 primero.setAnterior(nuevoNodo);  // Amarro el primero para atrás a la nueva cajita.
                 nuevoNodo.setAnterior(ultimo);    // Amarro la cajita nueva para atrás al último de la lista.
@@ -43,7 +43,7 @@ public class ListaDobleCircular {
                 primero = nuevoNodo;              // muevo el primero al nuevo nodo.
             }else {  
         // Caso 3: El elemento a insertar es mayor igual al último.
-                if (ultimo.getDato() <= valor){
+                if (ultimo.getPaciente().getCedula().compareTo(paciente.getCedula()) <= 0){
                     
                     ultimo.setSiguiente(nuevoNodo);  // Ponel sgte del último apuntando a la nueva cajita.
                     nuevoNodo.setSiguiente(primero);  // Hacerla circular.
@@ -55,7 +55,7 @@ public class ListaDobleCircular {
                 // Caso 4: El elemento a insertar va en una posición insterna de la lista,
                 // Hay que iterar. (Ciclo).
                 NodoDoble temp = primero;
-                while (temp.getSiguiente().getDato() < valor){
+                while (temp.getSiguiente().getPaciente().getCedula().compareTo(paciente.getCedula()) < 0){
                         temp = temp.getSiguiente();
                 }
                 nuevoNodo.setSiguiente(temp.getSiguiente()); // Amarro el sgte de la cajita nueva al que esta después de temp.

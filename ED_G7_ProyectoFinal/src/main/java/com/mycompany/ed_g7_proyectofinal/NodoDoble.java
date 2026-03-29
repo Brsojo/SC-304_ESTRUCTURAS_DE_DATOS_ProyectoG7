@@ -1,18 +1,17 @@
 package com.mycompany.ed_g7_proyectofinal;
 
 public class NodoDoble {
-
-    private ListaCircular historicoMedicamentosPrescritos;
     private ListaCircular historicoCitas;
+    private ListaCircular historicoMedicamentosPrescritos;
     private Paciente paciente;
     private NodoDoble anterior;
     private NodoDoble siguiente;
 
     
 
-    public NodoDoble( Paciente paciente) {
-        this.historicoMedicamentosPrescritos = new ListaCircular();
+    public NodoDoble(Paciente paciente) {
         this.historicoCitas = new ListaCircular();
+        this.historicoMedicamentosPrescritos = new ListaCircular();
         this.paciente = paciente;
     }
 
