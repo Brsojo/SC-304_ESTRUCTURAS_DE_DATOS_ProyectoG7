@@ -1,6 +1,5 @@
 package com.mycompany.ed_g7_proyectofinal;
 
-import java.util.Date;
 
 public class ListaSimple {
     private Nodo cabeza;

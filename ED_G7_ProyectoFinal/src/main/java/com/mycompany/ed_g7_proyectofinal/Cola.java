@@ -4,8 +4,6 @@
  */
 package com.mycompany.ed_g7_proyectofinal;
 
-import java.time.LocalDateTime;
-import javax.swing.JOptionPane;
 
 /**Implementa una estructura de datos tipo Cola (FIFO)
  * para la gestión de pacientes en el sistema hospitalario.
