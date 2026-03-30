@@ -8,20 +8,15 @@ package com.mycompany.ed_g7_proyectofinal;
  *  un paciente, el historial de citas, el historial de medicamentos, 
  * y referencias al anterior y al siguiente
  *
- * @author Matthew
- * @version 1.0
+ * @author Brandon Sojo Acuña
  */
 
 public class NodoDoble {
-    /** Historial de citas asociadas al paciente. */
+
     private HistoricoCitas historicoCitas;
-    /** Historial de medicamentos prescritos al paciente. */
     private HistoricoMedicamentosPrescritos historicoMedicamentos;
-    /** Paciente almacenado en el nodo. */
     private Paciente paciente;
-    /** Referencia al nodo anterior en la lista doble circular. */
     private NodoDoble anterior;
-    /** Referencia al nodo siguiente en la lista doble circular. */
     private NodoDoble siguiente;
 
     

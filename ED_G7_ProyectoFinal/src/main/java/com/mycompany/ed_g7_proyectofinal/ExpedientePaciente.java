@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  *   Buscar un paciente dentro del expediente.
  *   Retornar el nodo del paciente (si existe) a partir de su cédula.
  *   Mostrar de forma interactiva (con {@code JOptionPane}) los expedientes,
- *       permitiendo avanzar/retroceder en la lista.
+ *   permitiendo avanzar/retroceder en la lista.
  *
  *
  * @author Brandon Sojo Acuña
