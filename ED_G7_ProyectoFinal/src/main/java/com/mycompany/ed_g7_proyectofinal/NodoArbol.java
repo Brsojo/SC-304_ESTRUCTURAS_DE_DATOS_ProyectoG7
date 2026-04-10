@@ -10,25 +10,46 @@ package com.mycompany.ed_g7_proyectofinal;
  */
 public class NodoArbol {
 
-    private NodoDoble dato;
+    private HistoricoCitas historicoCitas;
+    private HistoricoMedicamentosPrescritos historicoMedicamentos;
+    private Paciente paciente;
     private NodoArbol nodoIzq;
     private NodoArbol nodoDer;
 
+    
     public NodoArbol() {
     }
 
-    public NodoArbol(NodoDoble dato) {
-        this.dato = dato;
+    public NodoArbol(Paciente paciente) {
+        this.paciente = paciente;
+        this.historicoCitas = new HistoricoCitas();
+        this.historicoMedicamentos = new HistoricoMedicamentosPrescritos();
         this.nodoIzq = null;
         this.nodoDer = null;
     }
 
-    public NodoDoble getDato() {
-        return dato;
+    public HistoricoCitas getHistoricoCitas() {
+        return historicoCitas;
     }
 
-    public void setDato(NodoDoble dato) {
-        this.dato = dato;
+    public void setHistoricoCitas(HistoricoCitas historicoCitas) {
+        this.historicoCitas = historicoCitas;
+    }
+
+    public HistoricoMedicamentosPrescritos getHistoricoMedicamentos() {
+        return historicoMedicamentos;
+    }
+
+    public void setHistoricoMedicamentos(HistoricoMedicamentosPrescritos historicoMedicamentos) {
+        this.historicoMedicamentos = historicoMedicamentos;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 
     public NodoArbol getNodoIzq() {
@@ -46,4 +67,6 @@ public class NodoArbol {
     public void setNodoDer(NodoArbol nodoDer) {
         this.nodoDer = nodoDer;
     }
+
+    
 }

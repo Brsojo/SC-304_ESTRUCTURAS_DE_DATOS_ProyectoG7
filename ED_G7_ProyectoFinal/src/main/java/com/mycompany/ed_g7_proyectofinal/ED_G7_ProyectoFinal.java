@@ -32,11 +32,12 @@ public class ED_G7_ProyectoFinal {
      */
 
     public static void main(String[] args) {
-        /*
-         * ModuloPrincipal MP = new ModuloPrincipal();
-         * MP.MenuPrincipal();
-         */
+        
+        ModuloPrincipal MP = new ModuloPrincipal();
+        MP.MenuPrincipal();
+         
 
+        /* 
         Arbol arbol = new Arbol();
 
         // Pacientes
@@ -59,5 +60,6 @@ public class ED_G7_ProyectoFinal {
         arbol.setRaiz(raiz);
 
         arbol.segmentacionPacientes();
+        */
     }
 }

@@ -10,35 +10,23 @@ import javax.swing.JOptionPane;
  *
  * @author matth
  */
-public class Arbol {
-    private NodoArbol raiz;
+public class ExpedienteArbol extends ArbolBinario {
+    
 
-    public Arbol() {
-        raiz = null;
+    public NodoArbol buscar(String cedula) {
+        return buscarRec(getRaiz(), cedula);
     }
 
-    public NodoArbol getRaiz() {
-        return raiz;
-    }
-
-    public void setRaiz(NodoArbol raiz) {
-        this.raiz = raiz;
-    }
-
-    public NodoDoble buscar(String cedula) {
-        return buscarRec(raiz, cedula);
-    }
-
-    private NodoDoble buscarRec(NodoArbol nodoActual, String cedula) {
+    private NodoArbol buscarRec(NodoArbol nodoActual, String cedula) {
 
         if (nodoActual == null) {
             return null;
         }
 
-        String cedulaActual = nodoActual.getDato().getPaciente().getCedula();
+        String cedulaActual = nodoActual.getPaciente().getCedula();
 
         if (cedula.equals(cedulaActual)) {
-            return nodoActual.getDato();
+            return nodoActual;
         }
 
         if (cedula.compareTo(cedulaActual) < 0) {
@@ -50,14 +38,14 @@ public class Arbol {
 
     public void segmentacionPacientes() {
 
-        if (raiz == null) {
+        if (getRaiz() == null) {
             JOptionPane.showMessageDialog(null, "No hay pacientes registrados.");
             return;
         }
 
         int[] contadores = new int[3];
 
-        segmentacionRec(raiz, contadores);
+        segmentacionRec(getRaiz(), contadores);
 
         JOptionPane.showMessageDialog(null,
                 "***** SEGMENTACIÓN DE PACIENTES ******\n\n" +
@@ -72,7 +60,7 @@ public class Arbol {
 
             segmentacionRec(nodoActual.getNodoIzq(), contadores);
 
-            Paciente paciente = nodoActual.getDato().getPaciente();
+            Paciente paciente = nodoActual.getPaciente();
             int edad = paciente.getEdad();
 
             if (edad >= 0 && edad < 18) {
