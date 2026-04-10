@@ -14,20 +14,31 @@ import java.util.Stack;
 
     private NodoArbol raiz;
 
+    /**
+     * crea un arbol binario con su raiz en null
+     */
     public ArbolBinario() {
         raiz = null;        // Indicar que el arbol está vacío.
     }
 
+    /**
+     * Obtiene la raiz del arbol
+     * @return raiz del arbol
+     */
     public NodoArbol getRaiz() {
         return raiz;
     }
 
+    /**
+     * setea la raiz del arbol
+     * @param raiz nodo que va a ser seteado como la raiz
+     */
     public void setRaiz(NodoArbol raiz) {
         this.raiz = raiz;
     }
 
     /**
-     *  metodo wrapper que llama al metodo recursivo para insertar expedientes al arbol
+     * metodo wrapper que llama al metodo recursivo para insertar expedientes al arbol
      * inicia desde la raiz
      * @param paciente
      */
@@ -65,11 +76,17 @@ import java.util.Stack;
 
     }
     
-    //método wrapper (envoltura) inOrden
+    /**
+     * llama al metodo que imprime Inorden
+     */
     public void inOrden(){
         inOrdenRec(raiz);
     }
     
+    /**
+     * imprime el arbol  inOrden de manera recursiva
+     * @param nodoActual nodoActual nodo actual del árbol desde donde se realiza la impresion
+     */
     private void inOrdenRec(NodoArbol nodoActual){
         if (nodoActual != null){
             inOrdenRec(nodoActual.getNodoIzq()); // recursivamente mando a calcular inorden del hijo de la izquierda.
@@ -79,7 +96,7 @@ import java.util.Stack;
         }    
     }
     
-    //método wrapper (envoltura) preOrden
+    /* 
     public void preOrden(){
         preOrdenRec(raiz);
     }
@@ -92,8 +109,9 @@ import java.util.Stack;
             
         }    
     }
-
-    //método wrapper (envoltura) postOrden
+    */
+    
+    /* 
     public void postOrden(){
         postOrdenRec(raiz);
     }
@@ -106,6 +124,7 @@ import java.util.Stack;
             
         }    
     }
+    */
 
     /* 
     // Código para eliminar un nodo.
@@ -197,15 +216,15 @@ import java.util.Stack;
     */
     
     /**
-     * 
+     * llama al metodo para imprimir inOrden de manera iterativa desde la raiz
      */
     public void inOrdenIterativo(){
         inOrdenIterativo(raiz);
     }
     
     /**
-     * 
-     * @param nodoActual
+     * recorre el arbol con ayuda de una pila para imprimir cada nodo inOrden
+     * @param nodoActual nodo actual del árbol desde donde se realiza la impresion
      */
     public void inOrdenIterativo(NodoArbol nodoActual){
        
