@@ -219,20 +219,19 @@ public class ArbolExpedientes extends ArbolBinario{
     
     
 
-public void inOrdenRecTest(NodoArbol nodoActual){
-    if (nodoActual != null){
-        inOrdenRecTest(nodoActual.getNodoIzq());
+    public void inOrdenRecTest(NodoArbol nodoActual){
+        if (nodoActual != null){
+            inOrdenRecTest(nodoActual.getNodoIzq());
 
-        System.out.println(
-            nodoActual.getPaciente().getCedula() +
-            " | citas? " + (nodoActual.getHistoricoCitas().getPrimeroCita() != null) +
-            " | meds? " + (nodoActual.getHistoricoMedicamentos().getPrimeroMedicamento() != null)
-        );
+            System.out.println(
+                nodoActual.getPaciente().getCedula() +
+                " | citas? " + (nodoActual.getHistoricoCitas().getPrimeroCita() != null) +
+                " | meds? " + (nodoActual.getHistoricoMedicamentos().getPrimeroMedicamento() != null)
+            );
 
-        inOrdenRecTest(nodoActual.getNodoDer());
+            inOrdenRecTest(nodoActual.getNodoDer());
+        }
     }
-}
-
 
 
     
@@ -283,7 +282,7 @@ public void inOrdenRecTest(NodoArbol nodoActual){
     }
 
     /**
-     * Cuenta coincidencias recorriendo el árbol completo (InOrden lógico).
+     * Cuenta coincidencias recorriendo el árbol completo 
      */
     private int contarCoincidenciasRec(NodoArbol nodo,
                                        Integer edadInicio, Integer edadFin,
@@ -351,29 +350,28 @@ public void inOrdenRecTest(NodoArbol nodoActual){
     /**
      * Retorna true si el histórico de citas contiene el diagnóstico buscado.
      *
-     * NOTA: Ajusta los nombres de getters si tu implementación varía.
      */
     private boolean historicoContieneDiagnostico(HistoricoCitas historico, String diagBuscado) {
         if (historico == null) return false;
 
         diagBuscado = limpiarTexto(diagBuscado);
 
-        // ---- Ajusta estos tipos/nombres si es necesario ----
-        NodoCita primero = historico.getPrimeroCita();   // <-- si tu método se llama distinto, cámbialo aquí
+       
+        NodoCita primero = historico.getPrimeroCita();   
         if (primero == null) return false;
 
         NodoCita actual = primero;
         boolean primeraVuelta = true;
 
-        // Soporta listas circulares o lineales:
+       
         while (actual != null && (primeraVuelta || actual != primero)) {
             primeraVuelta = false;
 
-            String diag = limpiarTexto(actual.getDiagnostico()); // <-- ajusta getter si aplica
+            String diag = limpiarTexto(actual.getDiagnostico()); 
             if (diag.equals(diagBuscado)) {
                 return true;
             }
-            actual = actual.getSiguiente(); // <-- ajusta getter si aplica
+            actual = actual.getSiguiente(); 
         }
 
         return false;
@@ -414,18 +412,17 @@ public void inOrdenRecTest(NodoArbol nodoActual){
 
     /**
      * Normaliza texto para comparar sin tildes, sin dobles espacios, y en MAYÚSCULA.
-     * Esto ayuda a que "Migraña" = "MIGRANA" y evita problemas de encoding.
+     *
      */
     private String limpiarTexto(String s) {
         if (s == null) return "";
         s = s.trim();
         if (s.isEmpty()) return "";
-
-        // Normaliza unicode (quita tildes)
+        
         s = Normalizer.normalize(s, Normalizer.Form.NFD);
         s = s.replaceAll("\\p{M}", "");
 
-        // Unifica espacios y mayúsculas
+      
         s = s.replaceAll("\\s+", " ").toUpperCase(Locale.ROOT);
 
         return s;
