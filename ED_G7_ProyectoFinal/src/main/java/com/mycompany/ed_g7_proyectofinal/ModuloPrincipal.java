@@ -188,6 +188,7 @@ public class ModuloPrincipal {
                             } catch (IOException e) {
                             System.out.println("Error al cargar el archivo JSON: " + e.getMessage());
                             }
+                           
                             break;
                         case 2:
                             JOptionPane.showMessageDialog(null, "Análisis de Enfermedades mas frecuentes");
@@ -197,6 +198,26 @@ public class ModuloPrincipal {
                             break;
                         case 4:
                             JOptionPane.showMessageDialog(null, "Detección de patrones");
+                            
+                            String edadIniStr = JOptionPane.showInputDialog("Edad inicial (opcional):");
+                            String edadFinStr = JOptionPane.showInputDialog("Edad final (opcional):");
+                            String diagnostico = JOptionPane.showInputDialog("Diagnóstico (opcional):");
+                            String genero = JOptionPane.showInputDialog("Género (opcional):");
+                            String medicamento = JOptionPane.showInputDialog("Medicamento (opcional):");
+                           
+                            Integer edadInicio = null;
+                            if (edadIniStr != null && !edadIniStr.trim().isEmpty()) {
+                                edadInicio = Integer.parseInt(edadIniStr.trim());
+                            }
+
+                            Integer edadFin = null;
+                            if (edadFinStr != null && !edadFinStr.trim().isEmpty()) {
+                                edadFin = Integer.parseInt(edadFinStr.trim());
+                            }
+ 
+
+                            JOptionPane.showMessageDialog(null,miArbolExpedientes.reporteConsultaAvanzada(edadInicio, edadFin, diagnostico, genero, medicamento));
+                                   
                             break;
                         case 5:
                             JOptionPane.showMessageDialog(null, "Propuesta de Valor");

@@ -84,7 +84,7 @@ public class ArbolBinario {
     private NodoArbol insertarRec(NodoArbol nodoActual, NodoArbol nodoPaciente){
         //caso 1, arbol vacio
         if(nodoActual==null){
-            return new NodoArbol(nodoPaciente.getPaciente());
+            return nodoPaciente;// new NodoArbol(nodoPaciente.getPaciente());
         }
         //caso 2, valor es menor que el nodo actual, va a la izq
         if(Integer.parseInt(nodoPaciente.getPaciente().getCedula())<Integer.parseInt(nodoActual.getPaciente().getCedula())){
