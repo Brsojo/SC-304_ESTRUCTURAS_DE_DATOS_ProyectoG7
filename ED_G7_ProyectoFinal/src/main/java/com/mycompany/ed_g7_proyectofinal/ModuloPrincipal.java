@@ -4,6 +4,7 @@
  */
 package com.mycompany.ed_g7_proyectofinal;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import javax.swing.JOptionPane;
@@ -47,6 +48,9 @@ public class ModuloPrincipal {
     /** Lista doble circular que almacena los expedientes únicos de los pacientes */
     ExpedientePaciente expedientes = new ExpedientePaciente();
     
+    /** Arbol Binario de Busqueda (ABB) para almacenar los expedientes de los pacientes*/
+    ArbolExpedientes miArbolExpedientes = new ArbolExpedientes();
+    
     /**
      * Constructor de la clase ModuloPrincipal.
      * Inicializa las estructuras de datos del sistema.
@@ -69,7 +73,8 @@ public class ModuloPrincipal {
                     + "\n1)Gestionar Llegada de Pacientes"
                     + "\n2)Consultar Bitácora de Citas del Día"
                     + "\n3)Consultar expediente de pacientes"                    
-                    + "\n4)Ayuda"
+                    + "\n4)Módulo de Inteligencia Empresarial (BI)”" 
+                    + "\n5)Ayuda"
                     + "\n0)Salir");
             if(respuesta==null){
                 respuesta="0";
@@ -159,8 +164,56 @@ public class ModuloPrincipal {
                     expedientes.mostrarExpediente();
                     break;
                 case 4:
+                    respuesta = JOptionPane.showInputDialog("******Módulo de Inteligencia Empresarial (BI)”******\n"
+
+                    + "\n1) Cargar Expedientes"
+                    + "\n2) Análisis de Enfermedades mas frecuentes"
+                    + "\n3) Segmentación de pacientes"
+                    + "\n4) Detección de patrones"
+                    + "\n5) Propuesta de Valor" //cambiar nombre
+                    + "\n\n0)Regresar");
+                    if(respuesta==null){
+                        respuesta="0";
+                    }
+                    if(!respuesta.matches("[0-7]")){
+                        respuesta="9";
+                    }
+                    indice = Integer.parseInt(respuesta);
+                    switch (indice) {
+                        case 1:
+                            JOptionPane.showMessageDialog(null, "Cargar Expedientes");
+                            try {    
+                                miArbolExpedientes.cargarExpediente();
+                                System.out.println("Expediente cargado correctamente");
+                            } catch (IOException e) {
+                            System.out.println("Error al cargar el archivo JSON: " + e.getMessage());
+                            }
+                            break;
+                        case 2:
+                            JOptionPane.showMessageDialog(null, "Análisis de Enfermedades mas frecuentes");
+                            break;
+                        case 3:
+                            JOptionPane.showMessageDialog(null, "Segmentación de pacientes");
+                            break;
+                        case 4:
+                            JOptionPane.showMessageDialog(null, "Detección de patrones");
+                            break;
+                        case 5:
+                            JOptionPane.showMessageDialog(null, "Propuesta de Valor");
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            JOptionPane.showMessageDialog(null, "Valor incorrecto...");
+                            break;
+                        
+                        
+                    }
+                    indice=4;                                   
+                    break;
+                case 5:
                     JOptionPane.showMessageDialog(null, "**************Version de la herramienta **************"
-                    +"\n Avance 2 V 2.0.7"
+                    +"\n Avance FINAL V 3.0.7"
                     +"\n\n Dessarrolado por:"
                     +"\n FI25049164  ILAMA PIEDRA MATTHEW"
                     +"\n FI24041046  PADILLA CHINCHILLA ALEX"

@@ -4,230 +4,274 @@
  */
 package com.mycompany.ed_g7_proyectofinal;
 
-import java.util.Stack;
-/**
- ** Gestiona un expediente que carga pacientes desde un archivo JSON
- * 
- * @author EQUIPO
- */
-  public class ArbolBinario {
 
+/**
+ * Implementa un Árbol Binario de Búsqueda (ABB) para la gestión
+ * del Expediente Único de Pacientes.
+ *
+ * El árbol utiliza la cédula del paciente como clave de ordenamiento,
+ * permitiendo operaciones eficientes de inserción, recorrido,
+ * eliminación y análisis estructural del árbol.
+ *
+ * Cada nodo del árbol está representado por la clase {@link NodoArbol},
+ * la cual encapsula: 
+ *   Datos generales del paciente
+ *   Histórico de citas médicas
+ *   Histórico de medicamentos prescritos
+ * 
+ * Esta clase corresponde al Avance 3 del proyecto, donde se sustituye
+ * el uso de estructuras lineales por un ABB para mejorar la eficiencia
+ * en la administración de expedientes médicos.
+ *
+ * @author Rolando Salas
+ * @version 3.0
+ */
+
+public class ArbolBinario {
+    /** Referencia a la raíz del árbol binario */
     private NodoArbol raiz;
 
+    
     /**
-     * crea un arbol binario con su raiz en null
+     * Constructor del árbol binario.
+     * Inicializa el árbol como vacío.
      */
     public ArbolBinario() {
-        raiz = null;        // Indicar que el arbol está vacío.
+        raiz=null;
     }
 
+    
     /**
-     * Obtiene la raiz del arbol
-     * @return raiz del arbol
-     */
+     * Retorna la raíz del árbol.
+     *
+     * @return Nodo raíz del árbol
+     *
+    */
     public NodoArbol getRaiz() {
         return raiz;
     }
 
+    
     /**
-     * setea la raiz del arbol
-     * @param raiz nodo que va a ser seteado como la raiz
+     * Asigna un nuevo nodo como raíz del árbol.
+     *
+     * @param raiz Nodo que será la nueva raíz
      */
     public void setRaiz(NodoArbol raiz) {
         this.raiz = raiz;
     }
-
-    /**
-     * metodo wrapper que llama al metodo recursivo para insertar expedientes al arbol
-     * inicia desde la raiz
-     * @param paciente
-     */
-    public void insertar(Paciente paciente) {
-        raiz = insertarRec(raiz, paciente);
-    }
-
-
-    /**
-     * Inserta un paciente en el árbol binario de búsqueda de forma recursiva.
-     * La inserción se realiza comparando la cédula del paciente, si es menor se inserta a la izquierda
-     * si es mayor a la derecha
-     * 
-     * @param nodoActual nodo actual del árbol desde donde se realiza la insercion
-     * @param paciente paciente que se desea insertar en el arbol
-     * @return Nodo actualizado después de la insercion
-     */
-    private NodoArbol insertarRec(NodoArbol nodoActual, Paciente paciente) {
-
-        // Caso 1• Si el árbol está vacío, el nuevo nodo se convierte en la raíz.
-        if (nodoActual == null) {
-            return new NodoArbol(paciente);
-        } else {
-            // Caso 2• Si el valor es menor que el nodo actual, va a la izquierda.
-            if (paciente.getCedula().compareTo(nodoActual.getPaciente().getCedula()) < 0) {
-                NodoArbol nodoAux = insertarRec(nodoActual.getNodoIzq(), paciente);
-                nodoActual.setNodoIzq(nodoAux);
-            } else if (paciente.getCedula().compareTo(nodoActual.getPaciente().getCedula()) > 0) {
-                // Caso 3• Si es mayor, va a la derecha.
-                NodoArbol nodoAux = insertarRec(nodoActual.getNodoDer(), paciente);
-                nodoActual.setNodoDer(nodoAux);
-            }
-            return nodoActual;
-        }
-
-    }
     
+
     /**
-     * llama al metodo que imprime Inorden
+     * Inserta un nodo de paciente en el árbol binario de búsqueda.
+     * Este método actúa como envoltorio del método recursivo.
+     *
+     * @param nodoPaciente Nodo que contiene el expediente del paciente
+     */
+    public void insertar(NodoArbol nodoPaciente){
+        raiz= insertarRec(raiz,nodoPaciente);
+        
+    }
+
+
+    /**
+     * Método recursivo para insertar un nodo en el árbol binario.
+     *
+     * @param nodoActual Nodo actual en el recorrido
+     * @param nodoPaciente Nodo del paciente que se desea insertar
+     * @return Nodo actualizado del árbol
+     */
+    private NodoArbol insertarRec(NodoArbol nodoActual, NodoArbol nodoPaciente){
+        //caso 1, arbol vacio
+        if(nodoActual==null){
+            return new NodoArbol(nodoPaciente.getPaciente());
+        }
+        //caso 2, valor es menor que el nodo actual, va a la izq
+        if(Integer.parseInt(nodoPaciente.getPaciente().getCedula())<Integer.parseInt(nodoActual.getPaciente().getCedula())){
+            NodoArbol nodoAux = insertarRec(nodoActual.getNodoIzq(),nodoPaciente);
+            nodoActual.setNodoIzq(nodoAux);
+        }
+        else if(Integer.parseInt(nodoPaciente.getPaciente().getCedula())>Integer.parseInt(nodoActual.getPaciente().getCedula())){
+            //caso 3 valor es mayor que nodo actual, va a la der
+            NodoArbol nodoAux = insertarRec(nodoActual.getNodoDer(),nodoPaciente);
+            nodoActual.setNodoDer(nodoAux);
+        }
+        return nodoActual;
+    }
+   
+
+    /**
+     * Recorre el árbol en orden (InOrden).
+     * Muestra las cédulas de los pacientes en orden ascendente.
      */
     public void inOrden(){
         inOrdenRec(raiz);
     }
     
+
     /**
-     * imprime el arbol  inOrden de manera recursiva
-     * @param nodoActual nodoActual nodo actual del árbol desde donde se realiza la impresion
+     * Método recursivo para el recorrido InOrden.
+     *
+     * @param nodoActual Nodo actual del recorrido
      */
     private void inOrdenRec(NodoArbol nodoActual){
-        if (nodoActual != null){
-            inOrdenRec(nodoActual.getNodoIzq()); // recursivamente mando a calcular inorden del hijo de la izquierda.
-            
-            System.out.print(nodoActual.getPaciente()+ " ");  // Imprimo el padre.
-            inOrdenRec(nodoActual.getNodoDer()); // recursivamente mando a calcular inorden del hijo de la derecha.
-        }    
+        if (nodoActual!= null){
+            inOrdenRec(nodoActual.getNodoIzq());
+            System.out.println(nodoActual.getPaciente().getCedula());
+            inOrdenRec(nodoActual.getNodoDer());
+        }
     }
     
-    /* 
+
+    /**
+     * Recorre el árbol en preorden (PreOrden).
+     */
     public void preOrden(){
         preOrdenRec(raiz);
     }
     
+
+    /**
+     * Método recursivo para el recorrido PreOrden.
+     *
+     * @param nodoActual Nodo actual del recorrido
+     */
     private void preOrdenRec(NodoArbol nodoActual){
-        if (nodoActual != null){
-            System.out.print(nodoActual.getPaciente()+ " ");  // Imprimo el padre.
-            preOrdenRec(nodoActual.getNodoIzq()); // recursivamente mando a calcular preorden del hijo de la izquierda.
-            preOrdenRec(nodoActual.getNodoDer()); // recursivamente mando a calcular preorden del hijo de la derecha.
-            
-        }    
+        if (nodoActual!= null){
+            System.out.println(nodoActual.getPaciente().getCedula());
+            preOrdenRec(nodoActual.getNodoIzq());
+            preOrdenRec(nodoActual.getNodoDer());
+        }
     }
-    */
     
-    /* 
+
+    /**
+     * Recorre el árbol en postorden (PostOrden).
+     */
     public void postOrden(){
         postOrdenRec(raiz);
     }
     
+
+    /**
+     * Método recursivo para el recorrido PostOrden.
+     *
+     * @param nodoActual Nodo actual del recorrido
+     */
     private void postOrdenRec(NodoArbol nodoActual){
-        if (nodoActual != null){
-            postOrdenRec(nodoActual.getNodoIzq()); // recursivamente mando a calcular postorden del hijo de la izquierda.
-            postOrdenRec(nodoActual.getNodoDer()); // recursivamente mando a calcular postorden del hijo de la derecha.
-            System.out.print(nodoActual.getPaciente()+ " ");  // Imprimo el padre.
-            
-        }    
-    }
-    */
-
-    /* 
-    // Código para eliminar un nodo.
-    // Método wrapper que invoca al método recursivo.
-    public void eliminar(int valor){
-        raiz = eliminarRec(raiz, valor);
-    }
-    */
-
-    /* 
-    // método recursivo que implementa los 3 casos de eliminación
-    // del algoritmo.
-    public NodoArbol eliminarRec(NodoArbol nodoActual, int valor){
-        // Este IF me permite buscar el elemento y posicionarme 
-        // en el elemento a eliminar.
-        if (valor < nodoActual.getDato())
-            nodoActual.setNodoIzq(eliminarRec(nodoActual.getNodoIzq(), valor));
-        else if (valor > nodoActual.getDato())
-            nodoActual.setNodoDer(eliminarRec(nodoActual.getNodoDer(), valor));
-        else{ // Es igual. Es decir encontré el elemento a eliminar.
-            // Lo encontró y por lo tanto vamos a eliminarlo.
-            // Caso 1: Nodo sin Hijos (Una hoja).
-            if (nodoActual.getNodoIzq() == null && nodoActual.getNodoDer() == null)
-                    return null; // Al retornar NULL, lo estoy borrando.
-            // Caso 2:  Nodo con un hijo
-            if (nodoActual.getNodoIzq() == null) // 2.1 Cuando el hijo es el de la derecha.
-                return nodoActual.getNodoDer();
-            else if (nodoActual.getNodoDer() == null) // 2.2 Cuando el hijo es el de la izquierda.
-                  return nodoActual.getNodoIzq();
-            // Caso 3: Nodo con 2 hijos.
-            NodoArbol sucesor  = buscarSucesorInOrden(nodoActual.getNodoDer());
-            nodoActual.setDato(sucesor.getDato());
-            nodoActual.setNodoDer(eliminarRec(nodoActual.getNodoDer(),sucesor.getDato())); // Elimino para que no este duplicado.
+        if (nodoActual!= null){            
+            postOrdenRec(nodoActual.getNodoIzq());
+            postOrdenRec(nodoActual.getNodoDer());
+            System.out.println(nodoActual.getPaciente().getCedula());
         }
+    }
+    
+
+    /**
+     * Elimina un nodo del árbol según la cédula del paciente.
+     *
+     * @param cedula Cédula del paciente a eliminar
+     */
+    public void eliminar(int cedula){
+        eliminarRec(raiz,cedula);                
+    }
+    
+
+    /**
+     * Método recursivo para eliminar un nodo del árbol.
+     *
+     * @param nodoActual Nodo actual del recorrido
+     * @param cedula Cédula del paciente a eliminar
+     * @return Nodo actualizado tras la eliminación
+     */
+    public NodoArbol eliminarRec (NodoArbol nodoActual, int cedula){
+        
+        // buscar el elemento y posicionarme en el elemento a eliminar
+        if (cedula<Integer.parseInt(nodoActual.getPaciente().getCedula())){
+            nodoActual.setNodoIzq(eliminarRec(nodoActual.getNodoIzq(),cedula));
+        } else if(cedula>Integer.parseInt(nodoActual.getPaciente().getCedula())){
+            nodoActual.setNodoDer(eliminarRec(nodoActual.getNodoDer(),cedula));
+        } else {
+            //cuando es igual, encontre el elemento a eliminar
+            // caso 1 : sin hijos
+            if(nodoActual.getNodoIzq()==null && nodoActual.getNodoDer()==null){
+                return null; // al retornar null lo estoy borrando
+            }
+            // caso 2: un hijo
+            if(nodoActual.getNodoIzq()==null){ //el hijo esta a la derecha
+                return nodoActual.getNodoDer();
+            }else if (nodoActual.getNodoDer()==null){ //el hijo esta a la izq 
+                return nodoActual.getNodoIzq();
+            }
+            //caso 3 : dos hijos
+            NodoArbol sucesor = buscarSucesorInOrden(nodoActual.getNodoDer());
+            nodoActual.setPaciente(sucesor.getPaciente()); 
+            nodoActual.setNodoDer(eliminarRec(nodoActual.getNodoDer(),Integer.parseInt(sucesor.getPaciente().getCedula())));
+        }
+        
         return nodoActual;
     }
-    */
-    /* 
-    private NodoArbol buscarSucesorInOrden(NodoArbol nodoBase){
-        while (nodoBase.getNodoIzq() != null){
-            nodoBase = nodoBase.getNodoIzq();
-        }
-        return nodoBase;
-    }
-        */
-    /* 
-    //Inicia código de semana 11.
-    public int obtenerNivel(int valor){
-        return obtenerNivelRec(raiz, valor,0);
-    }
-    */
     
-    /* 
-    private int obtenerNivelRec(NodoArbol nodoActual, int valor, int nivel){
-        if (nodoActual == null)  return -1;
-        if (nodoActual.getDato() == valor) // Si lo encuentro
-            return nivel;
-        else{
-            int nivelIzq = obtenerNivelRec(nodoActual.getNodoIzq(),valor, nivel +1);
-            if (nivelIzq != -1)
-                return nivelIzq;
-            else // Si es igual a -1. No lo encontró yendose por la izq.
-                return obtenerNivelRec(nodoActual.getNodoDer(),valor, nivel +1);
-        }
-    }
-    */
-    
-    /* 
-    // Métodos para calcular la altura de un arbol.
-    // Método wrapper o envoltura que llama al recursivo.
-    public int obtenerAltura(){
-        return obtenerAturaRec(raiz);
-    }
-        */
-    /* 
-    public int obtenerAturaRec(Nodo nodoActual){
-        if (nodoActual == null)
-            return -1;
-        else{
-            int alturaIzq = obtenerAturaRec(nodoActual.getNodoIzq());
-            int alturaDer = obtenerAturaRec(nodoActual.getNodoDer());
-            return Math.max(alturaIzq, alturaDer) +1;
-            //if (alturaIzq > alturaDer)
-                //return alturaIzq + 1;
-            //else 
-                //return alturaDer + 1;
-        }
-    }
-    */
     
     /**
-     * llama al metodo para imprimir inOrden de manera iterativa desde la raiz
+     * Busca el sucesor InOrden de un nodo dado.
+     *
+     * @param nodoBase Nodo desde el cual se busca el sucesor
+     * @return Nodo sucesor InOrden
      */
+    private NodoArbol buscarSucesorInOrden(NodoArbol nodoBase){
+        while (nodoBase.getNodoIzq()!=null){
+            nodoBase = nodoBase.getNodoIzq();
+        }
+        return nodoBase;        
+    }  
+    
+    //Inicia codigo semana 11 23 Mar 2026
+    
+    //calcular el Nivel del arbol
+    /*
+    public int obtenerNivel(int valor){
+        return obtenerNivelRec(raiz,valor,0);
+    }
+    
+    private int obtenerNivelRec(NodoArbol nodoActual, int valor, int nivel){
+        if(nodoActual==null){
+            return -1;
+        }
+        if(nodoActual.getDato()==valor){ //si lo encuentro
+            return nivel;
+        }else {
+            int nivelIzq = obtenerNivelRec(nodoActual.getNodoIzq(),valor,nivel+1);
+            if(nivelIzq !=-1){
+                return nivelIzq;
+            } else {// si es igual a -1, no lo encontro por la izq 
+                return obtenerNivelRec(nodoActual.getNodoDer(),valor,nivel+1);
+            }
+        }        
+    }
+    
+    //metodos para calcular altura del arbol
+    
+    public int obtenerAltura(){
+        return obtenerAlturaRec(raiz);
+    }
+    
+    private int obtenerAlturaRec(NodoArbol nodoActual){
+        if(nodoActual==null){
+            return -1;
+        }else{
+            int alturaIzq= obtenerAlturaRec(nodoActual.getNodoIzq());
+            int alturaDer= obtenerAlturaRec(nodoActual.getNodoDer());
+            return Math.max(alturaIzq, alturaDer)+1;                                  
+        }                
+    }  */
+    
+    /*
     public void inOrdenIterativo(){
         inOrdenIterativo(raiz);
     }
     
-    /**
-     * recorre el arbol con ayuda de una pila para imprimir cada nodo inOrden
-     * @param nodoActual nodo actual del árbol desde donde se realiza la impresion
-     */
     public void inOrdenIterativo(NodoArbol nodoActual){
-       
        Stack <NodoArbol> pila = new Stack(); // Clase precompilada de JAVA que sirve de Pila.
        NodoArbol actual = raiz;
        while (actual != null || !pila.isEmpty() ){
@@ -236,9 +280,9 @@ import java.util.Stack;
                actual = actual.getNodoIzq();
            }
            actual = pila.pop();
-           System.out.println(actual.getPaciente()+ "");
+           System.out.println(actual.getDato()+ "");
            actual = actual.getNodoDer();
         }    
-   
-   } 
+   } */
+    
 }
