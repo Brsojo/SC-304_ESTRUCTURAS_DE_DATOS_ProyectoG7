@@ -73,7 +73,7 @@ public class ModuloPrincipal {
                     + "\n1)Gestionar Llegada de Pacientes"
                     + "\n2)Consultar Bitácora de Citas del Día"
                     + "\n3)Consultar expediente de pacientes"                    
-                    + "\n4)Módulo de Inteligencia Empresarial (BI)”" 
+                    + "\n4)Módulo de Inteligencia Empresarial (BI)" 
                     + "\n5)Ayuda"
                     + "\n0)Salir");
             if(respuesta==null){
