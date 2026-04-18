@@ -192,6 +192,8 @@ public class ModuloPrincipal {
                             break;
                         case 2:
                             JOptionPane.showMessageDialog(null, "Análisis de Enfermedades mas frecuentes");
+                            String analisis = miArbolExpedientes.analisisEnfermedadesMasFrecuentes();
+                            JOptionPane.showMessageDialog(null, analisis);
                             break;
                         case 3:
                             JOptionPane.showMessageDialog(null, "Segmentación de pacientes");
@@ -221,6 +223,8 @@ public class ModuloPrincipal {
                             break;
                         case 5:
                             JOptionPane.showMessageDialog(null, "Propuesta de Valor");
+                            String propuesta = miArbolExpedientes.propuestaValor();
+                            JOptionPane.showMessageDialog(null, propuesta);
                             break;
                         case 0:
                             break;

@@ -461,6 +461,670 @@ public class ArbolExpedientes extends ArbolBinario{
 
         return sb.toString();
     }
+    
+    /**
+     * Analiza las enfermedades más frecuentes en el historial de citas de todos los pacientes.
+     * Recorre el árbol binario, extrae todos los diagnósticos del historial de citas de cada paciente,
+     * cuenta la frecuencia de cada diagnóstico y los ordena de mayor a menor.
+     * @return String con el listado de diagnósticos y su frecuencia, ordenados de mayor a menor.
+     *         Si no hay pacientes o diagnósticos, retorna un mensaje indicando la situación.
+     * @author Alex Padilla Chinchilla
+     */
+    
+    public String analisisEnfermedadesMasFrecuentes() {
+        if (getRaiz() == null) {
+            return "ANÁLISIS DE ENFERMEDADES MÁS FRECUENTES\n\n"
+                    + "No hay pacientes registrados.";
+        }
+
+        // Recolectar todos los diagnósticos
+        StringBuilder todosDiagnosticos = new StringBuilder();
+        recolectarDiagnosticos(getRaiz(), todosDiagnosticos);
+        
+        if (todosDiagnosticos.length() == 0) {
+            return "ANÁLISIS DE ENFERMEDADES MÁS FRECUENTES\n\n"
+                    + "No hay diagnósticos registrados.";
+        }
+        
+        // Contar cuántos diagnósticos hay en total
+        int totalRegistros = 1;
+        for (int i = 0; i < todosDiagnosticos.length(); i++) {
+            if (todosDiagnosticos.charAt(i) == '|') {
+                totalRegistros++;
+            }
+        }
+        
+        // Arreglos para almacenar diagnósticos y frecuencias
+        String[] diagnosticos = new String[totalRegistros];
+        int[] frecuencias = new int[totalRegistros];
+        int totalDistintos = 0;
+        
+        // Extraer y contar cada diagnóstico
+        StringBuilder temp = new StringBuilder();
+        for (int i = 0; i < todosDiagnosticos.length(); i++) {
+            char c = todosDiagnosticos.charAt(i);
+            if (c == '|') {
+                String diag = temp.toString();
+                if (diag != null && diag.length() > 0) {
+                    // Buscar si ya existe
+                    int pos = -1;
+                    for (int j = 0; j < totalDistintos; j++) {
+                        if (diagnosticos[j].equals(diag)) {
+                            pos = j;
+                            break;
+                        }
+                    }
+                    if (pos != -1) {
+                        frecuencias[pos]++;
+                    } else {
+                        diagnosticos[totalDistintos] = diag;
+                        frecuencias[totalDistintos] = 1;
+                        totalDistintos++;
+                    }
+                }
+                temp = new StringBuilder();
+            } else {
+                temp.append(c);
+            }
+        }
+        
+        // Procesar el último diagnóstico
+        String ultimoDiag = temp.toString();
+        if (ultimoDiag != null && ultimoDiag.length() > 0) {
+            int pos = -1;
+            for (int j = 0; j < totalDistintos; j++) {
+                if (diagnosticos[j].equals(ultimoDiag)) {
+                    pos = j;
+                    break;
+                }
+            }
+            if (pos != -1) {
+                frecuencias[pos]++;
+            } else {
+                diagnosticos[totalDistintos] = ultimoDiag;
+                frecuencias[totalDistintos] = 1;
+                totalDistintos++;
+            }
+        }
+        
+        // Ordenar por frecuencia (mayor a menor)
+        for (int i = 0; i < totalDistintos - 1; i++) {
+            for (int j = 0; j < totalDistintos - i - 1; j++) {
+                if (frecuencias[j] < frecuencias[j + 1]) {
+                    // Intercambiar frecuencias
+                    int tempFrec = frecuencias[j];
+                    frecuencias[j] = frecuencias[j + 1];
+                    frecuencias[j + 1] = tempFrec;
+                    // Intercambiar diagnósticos
+                    String tempDiag = diagnosticos[j];
+                    diagnosticos[j] = diagnosticos[j + 1];
+                    diagnosticos[j + 1] = tempDiag;
+                }
+            }
+        }
+        
+        // Construir resultado
+        StringBuilder sb = new StringBuilder();
+        sb.append("ANÁLISIS DE ENFERMEDADES MÁS FRECUENTES\n\n");
+        
+        for (int i = 0; i < totalDistintos; i++) {
+            sb.append(diagnosticos[i]);
+            sb.append(": ");
+            sb.append(frecuencias[i]);
+            sb.append(" casos\n");
+        }
+        
+        return sb.toString();
+    }
+
+    /**
+     * Busca un diagnóstico en un arreglo de diagnósticos.
+     * Recorre el arreglo de diagnósticos desde la posición 0 hasta el total indicado
+     * y compara cada elemento con el diagnóstico buscado.
+     * @param diagnosticos Arreglo de cadenas que contiene los diagnósticos almacenados.
+     * @param total Cantidad total de elementos válidos en el arreglo.
+     * @param busqueda Diagnóstico que se desea buscar en el arreglo.
+     * @return int El índice donde se encuentra el diagnóstico si existe, -1 si no se encuentra.
+     * @author Alex Padilla Chinchilla
+     */
+    
+    private int buscarDiagnostico(String[] diagnosticos, int total, String busqueda) {
+        for (int i = 0; i < total; i++) {
+            if (diagnosticos[i] != null && diagnosticos[i].equals(busqueda)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Recolecta todos los diagnósticos del árbol en un StringBuilder.
+     * Realiza un recorrido InOrden del árbol, extrae cada diagnóstico del historial de citas
+     * de cada paciente y los concatena en un StringBuilder.
+     * @param nodo Nodo actual del árbol que se está recorriendo.
+     * @param acumulador StringBuilder donde se acumulan los diagnósticos.
+     * @author Alex Padilla Chinchilla
+     */
+    
+    private void recolectarDiagnosticos(NodoArbol nodo, StringBuilder acumulador) {
+        if (nodo == null) return;
+        
+        recolectarDiagnosticos(nodo.getNodoIzq(), acumulador);
+        
+        HistoricoCitas citas = nodo.getHistoricoCitas();
+        if (citas != null && citas.getPrimeroCita() != null) {
+            NodoCita actual = citas.getPrimeroCita();
+            do {
+                String diagnostico = actual.getDiagnostico();
+                if (diagnostico != null && diagnostico.trim().length() > 0) {
+                    diagnostico = limpiarTexto(diagnostico);
+                    if (acumulador.length() > 0) {
+                        acumulador.append("|");
+                    }
+                    acumulador.append(diagnostico);
+                }
+                actual = actual.getSiguiente();
+            } while (actual != citas.getPrimeroCita());
+        }
+        
+        recolectarDiagnosticos(nodo.getNodoDer(), acumulador);
+    }
+
+    /**
+     * Propuesta de valor con análisis de correlaciones y alertas tempranas.
+     * Ofrece tres análisis:
+     * 1. Correlación entre género y diagnóstico más frecuente
+     * 2. Identificación de pacientes con comorbilidad (2 o más diagnósticos distintos)
+     * 3. Alertas sobre medicamentos de alto uso
+     * @return String con el análisis completo de propuesta de valor, incluyendo tablas
+     *         con correlaciones, estadísticas de comorbilidad y alertas de medicamentos.
+     * @author Alex Padilla Chinchilla
+     */
+    
+    public String propuestaValor() {
+        if (getRaiz() == null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("PROPUESTA DE VALOR - HOSPITAL SU SALUD\n");
+            sb.append("═══════════════════════════════════════════════════════════════════\n\n");
+            sb.append("No hay pacientes registrados. Cargue el expediente primero.\n");
+            return sb.toString();
+        }
+
+        StringBuilder reporte = new StringBuilder();
+        reporte.append("PROPUESTA DE VALOR - HOSPITAL SU SALUD\n");
+        reporte.append("Análisis de Correlaciones y Alertas Tempranas\n");
+        reporte.append("══════════════════════════════════════════════════════════════════\n\n");
+
+        reporte.append("1. CORRELACIÓN GÉNERO - DIAGNÓSTICO                             \n");
+        reporte.append("────────────────────────────────────────────────────────────────\n");
+
+        String correlaciones = analizarCorrelacionGeneroDiagnostico();
+        reporte.append(correlaciones);
+        reporte.append("────────────────────────────────────────────────────────────────\n\n");
+
+        reporte.append("2. PACIENTES CON COMORBILIDAD\n");
+        reporte.append("────────────────────────────────────────────────────────────────\n");
+
+        String comorbilidad = analizarComorbilidad();
+        reporte.append(comorbilidad);
+        reporte.append("────────────────────────────────────────────────────────────────\n\n");
+
+        reporte.append("3. ALERTAS DE MEDICAMENTOS\n");
+        reporte.append("────────────────────────────────────────────────────────────────\n");
+
+        String alertasMeds = analizarAlertasMedicamentos();
+        reporte.append(alertasMeds);
+        reporte.append("────────────────────────────────────────────────────────────────\n\n");
+
+        return reporte.toString();
+    }
+
+    /**
+     * Analiza la correlación entre el género del paciente y los diagnósticos más frecuentes.
+     * Recorre el árbol y separa los diagnósticos por género (masculino y femenino),
+     * luego identifica cuál es el diagnóstico más común en cada grupo.
+     * @return String con el diagnóstico más frecuente en hombres y el diagnóstico
+     *         más frecuente en mujeres, junto con el número de casos.
+     * @author Alex Padilla Chinchilla
+     */
+    
+    private String analizarCorrelacionGeneroDiagnostico() {
+        // Arreglos para almacenar (máximo 50 diagnósticos distintos)
+        String[] diagMasculino = new String[50];
+        int[] frecMasculino = new int[50];
+        int totalMasculino = 0;
+
+        String[] diagFemenino = new String[50];
+        int[] frecFemenino = new int[50];
+        int totalFemenino = 0;
+
+        // Arreglos auxiliares para pasar por referencia
+        int[] totalM = new int[]{totalMasculino};
+        int[] totalF = new int[]{totalFemenino};
+
+        // Recorrer el árbol
+        recolectarDiagnosticosPorGenero(getRaiz(), diagMasculino, frecMasculino, totalM, diagFemenino, frecFemenino, totalF);
+
+        StringBuilder sb = new StringBuilder();
+
+        // Top diagnóstico en hombres
+        if (totalM[0] > 0) {
+            sb.append("MASCULINO:\n");
+            sb.append(obenerTopDeArreglo(diagMasculino, frecMasculino, totalM[0]));
+        } else {
+            sb.append("MASCULINO: Sin datos suficientes \n");
+        }
+
+        sb.append("────────────────────────────────────────────────────────────────\n");
+
+        // Top diagnóstico en mujeres
+        if (totalF[0] > 0) {
+            sb.append("FEMENINO:\n");
+            sb.append(obenerTopDeArreglo(diagFemenino, frecFemenino, totalF[0]));
+        } else {
+            sb.append("FEMENINO: Sin datos suficientes\n");
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Recolecta y clasifica los diagnósticos por género durante el recorrido del árbol.
+     * Recorre el árbol InOrden y, para cada paciente, extrae sus diagnósticos y los agrega
+     * a la colección correspondiente según su género (masculino o femenino).
+     * @param nodo Nodo actual del árbol que se está recorriendo.
+     * @param diagM Arreglo para almacenar los diagnósticos de pacientes masculinos.
+     * @param freqM Arreglo para almacenar la frecuencia de cada diagnóstico masculino.
+     * @param totalM Arreglo con un entero que indica cuántos diagnósticos distintos hay en hombres.
+     * @param diagF Arreglo para almacenar los diagnósticos de pacientes femeninos.
+     * @param freqF Arreglo para almacenar la frecuencia de cada diagnóstico femenino.
+     * @param totalF Arreglo con un entero que indica cuántos diagnósticos distintos hay en mujeres.
+     * @author Alex Padilla Chinchilla
+     */
+    
+    private void recolectarDiagnosticosPorGenero(NodoArbol nodo, String[] diagM, int[] freqM, int[] totalM, String[] diagF, int[] freqF, int[] totalF) {
+        if (nodo == null) {
+            return;
+        }
+
+        recolectarDiagnosticosPorGenero(nodo.getNodoIzq(), diagM, freqM, totalM, diagF, freqF, totalF);
+
+        Paciente p = nodo.getPaciente();
+        String genero = limpiarTexto(p.getGenero());
+
+        HistoricoCitas citas = nodo.getHistoricoCitas();
+        if (citas != null && citas.getPrimeroCita() != null) {
+            NodoCita actual = citas.getPrimeroCita();
+            do {
+                String diagnostico = limpiarTexto(actual.getDiagnostico());
+                if (diagnostico != null && diagnostico.length() > 0) {
+                    if (genero.equals("MASCULINO")) {
+                        agregarAColeccion(diagM, freqM, totalM, diagnostico);
+                    } else if (genero.equals("FEMENINO")) {
+                        agregarAColeccion(diagF, freqF, totalF, diagnostico);
+                    }
+                }
+                actual = actual.getSiguiente();
+            } while (actual != citas.getPrimeroCita());
+        }
+
+        recolectarDiagnosticosPorGenero(nodo.getNodoDer(), diagM, freqM, totalM, diagF, freqF, totalF);
+    }
+
+    /**
+     * Agrega un diagnóstico a una colección de arreglos paralelos.
+     * Si el diagnóstico ya existe en la colección, incrementa su frecuencia.
+     * Si no existe, lo agrega como un nuevo elemento.
+     * @param items Arreglo que almacena los valores (diagnósticos o medicamentos).
+     * @param frecuencias Arreglo que almacena la frecuencia de cada valor.
+     * @param total Arreglo con un entero que indica cuántos elementos distintos hay actualmente.
+     * @param valor Valor a agregar a la colección.
+     * @author Alex Padilla Chinchilla
+     */
+    
+    private void agregarAColeccion(String[] items, int[] frecuencias, int[] total, String valor) {
+        // Buscar si ya existe
+        for (int i = 0; i < total[0]; i++) {
+            if (items[i] != null && items[i].equals(valor)) {
+                frecuencias[i]++;
+                return;
+            }
+        }
+
+        // Agregar nuevo
+        if (total[0] < items.length) {
+            items[total[0]] = valor;
+            frecuencias[total[0]] = 1;
+            total[0]++;
+        }
+    }
+
+    /**
+     * Obtiene el elemento más frecuente de un arreglo de valores.
+     * Recorre el arreglo de frecuencias para encontrar el índice con mayor valor,
+     * luego retorna una cadena formateada con el elemento y su frecuencia.
+     * @param items Arreglo que contiene los valores (diagnósticos).
+     * @param frecuencias Arreglo que contiene la frecuencia de cada valor.
+     * @param total Cantidad total de elementos distintos en el arreglo.
+     * @return String formateado con el diagnóstico más común y su número de casos.
+     * @author Alex Padilla Chinchilla
+     */
+    
+    private String obenerTopDeArreglo(String[] items, int[] frecuencias, int total) {
+        if (total == 0) {
+            return "";
+        }
+
+        // Encontrar el de mayor frecuencia
+        int maxIndex = 0;
+        for (int i = 1; i < total; i++) {
+            if (frecuencias[i] > frecuencias[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        String nombre = items[maxIndex];
+        if (nombre.length() > 40) {
+            nombre = nombre.substring(0, 37) + "...";
+        }
+
+        sb.append("    • Diagnóstico más común: ");
+        sb.append(nombre);
+
+        // Ajustar espacios
+        int espacios = 31 - nombre.length();
+        for (int i = 0; i < espacios; i++) {
+            sb.append(" ");
+        }
+        sb.append("\n");
+
+        sb.append("    • ");
+        sb.append(frecuencias[maxIndex]);
+        sb.append(" casos registrados");
+
+        // Ajustar espacios
+        espacios = 42 - String.valueOf(frecuencias[maxIndex]).length();
+        for (int i = 0; i < espacios; i++) {
+            sb.append(" ");
+        }
+        sb.append("\n");
+
+        return sb.toString();
+    }
+
+    /**
+     * Analiza cuántos pacientes presentan comorbilidad (2 o más diagnósticos distintos).
+     * Recorre el árbol y para cada paciente cuenta cuántos diagnósticos diferentes tiene.
+     * Un paciente se considera con comorbilidad si tiene 2 o más diagnósticos distintos.
+     * @return String con la cantidad de pacientes con comorbilidad y el porcentaje
+     *         que representan sobre el total de pacientes.
+     * @author Alex Padilla Chinchilla
+     */
+    
+    private String analizarComorbilidad() {
+        int[] pacientesConComorbilidad = new int[1];
+        int[] totalPacientes = new int[1];
+
+        contarComorbilidad(getRaiz(), pacientesConComorbilidad, totalPacientes);
+
+        StringBuilder sb = new StringBuilder();
+
+        if (totalPacientes[0] == 0) {
+            sb.append("No hay pacientes registrados.\n");
+            return sb.toString();
+        }
+
+        int cantidad = pacientesConComorbilidad[0];
+
+        sb.append("Pacientes con 2 o más diagnósticos diferentes: ");
+        sb.append(cantidad);
+
+        // Ajustar espacios
+        int espacios = 35 - String.valueOf(cantidad).length();
+        for (int i = 0; i < espacios; i++) {
+            sb.append(" ");
+        }
+        sb.append("\n");
+
+        // Calcular porcentaje manualmente
+        int porcentajeEntero = (cantidad * 100) / totalPacientes[0];
+        int porcentajeDecimal = ((cantidad * 100) % totalPacientes[0]) * 10 / totalPacientes[0];
+
+        sb.append("Representa el ");
+        sb.append(porcentajeEntero);
+        sb.append(".");
+        sb.append(porcentajeDecimal);
+        sb.append("% del total de pacientes");
+
+        espacios = 28 - (String.valueOf(porcentajeEntero).length() + 2);
+        for (int i = 0; i < espacios; i++) {
+            sb.append(" ");
+        }
+        sb.append("\n");
+
+        if (cantidad > 0) {
+            sb.append("IMPORTANTE:\n");
+            sb.append("Estos pacientes requieren atención multidisciplinaria\n");
+            sb.append("y seguimiento más frecuente para evitar complicaciones.\n");
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Cuenta recursivamente los pacientes que tienen comorbilidad en el árbol.
+     * Para cada paciente, recolecta sus diagnósticos distintos y si tiene 2 o más
+     * incrementa el contador de comorbilidad.
+     * @param nodo Nodo actual del árbol que se está recorriendo.
+     * @param contador Arreglo con un entero que acumula la cantidad de pacientes con comorbilidad.
+     * @param totalPacientes Arreglo con un entero que acumula el total de pacientes recorridos.
+     * @author Alex Padilla Chinchilla
+     */
+    
+    private void contarComorbilidad(NodoArbol nodo, int[] contador, int[] totalPacientes) {
+        if (nodo == null) {
+            return;
+        }
+
+        contarComorbilidad(nodo.getNodoIzq(), contador, totalPacientes);
+
+        totalPacientes[0]++;
+
+        // Recolectar diagnósticos distintos del paciente
+        String[] diagnosticos = new String[20];
+        int totalDiag = 0;
+
+        HistoricoCitas citas = nodo.getHistoricoCitas();
+        if (citas != null && citas.getPrimeroCita() != null) {
+            NodoCita actual = citas.getPrimeroCita();
+            do {
+                String diag = limpiarTexto(actual.getDiagnostico());
+                if (diag != null && diag.length() > 0) {
+                    // Verificar si ya existe
+                    boolean existe = false;
+                    for (int i = 0; i < totalDiag; i++) {
+                        if (diagnosticos[i] != null && diagnosticos[i].equals(diag)) {
+                            existe = true;
+                            break;
+                        }
+                    }
+                    if (!existe && totalDiag < diagnosticos.length) {
+                        diagnosticos[totalDiag] = diag;
+                        totalDiag++;
+                    }
+                }
+                actual = actual.getSiguiente();
+            } while (actual != citas.getPrimeroCita());
+        }
+
+        // Si tiene 2 o más diagnósticos distintos, tiene comorbilidad
+        if (totalDiag >= 2) {
+            contador[0]++;
+        }
+
+        contarComorbilidad(nodo.getNodoDer(), contador, totalPacientes);
+    }
+
+    /**
+     * Recolecta todos los medicamentos del árbol en un StringBuilder.
+     * Realiza un recorrido InOrden del árbol, extrae cada medicamento del historial
+     * de medicamentos de cada paciente y los concatena en un StringBuilder
+     * @param nodo Nodo actual del árbol que se está recorriendo.
+     * @param acumulador StringBuilder donde se acumulan los medicamentos.
+     * @author Alex Padilla Chinchilla
+     */
+    
+    private void recolectarMedicamentos(NodoArbol nodo, StringBuilder acumulador) {
+        if (nodo == null) {
+            return;
+        }
+
+        // Recorrer izquierda
+        recolectarMedicamentos(nodo.getNodoIzq(), acumulador);
+
+        // Procesar nodo actual
+        HistoricoMedicamentosPrescritos meds = nodo.getHistoricoMedicamentos();
+        if (meds != null && meds.getPrimeroMedicamento() != null) {
+            NodoMedicamento actual = meds.getPrimeroMedicamento();
+            do {
+                String medicamento = actual.getMedicamento();
+                if (medicamento != null && medicamento.trim().length() > 0) {
+                    medicamento = limpiarTexto(medicamento);
+                    if (acumulador.length() > 0) {
+                        acumulador.append("|");
+                    }
+                    acumulador.append(medicamento);
+                }
+                actual = actual.getSiguiente();
+            } while (actual != meds.getPrimeroMedicamento());
+        }
+
+        // Recorrer derecha
+        recolectarMedicamentos(nodo.getNodoDer(), acumulador);
+    }
+
+    /**
+     * Analiza los medicamentos prescritos para identificar el más recetado.
+     * Recolecta todos los medicamentos del árbol, cuenta sus frecuencias
+     * y determina cuál ha sido recetado con mayor frecuencia.
+     * @return String con el nombre del medicamento más recetado y la cantidad de recetas
+     *         junto con una recomendación para la gestión de inventario.
+     * @author Alex Padilla Chinchilla
+     */
+    
+    private String analizarAlertasMedicamentos() {
+        // Recolectar todos los medicamentos
+        StringBuilder todosMeds = new StringBuilder();
+        recolectarMedicamentos(getRaiz(), todosMeds);
+
+        StringBuilder sb = new StringBuilder();
+
+        if (todosMeds.length() == 0) {
+            sb.append("No hay medicamentos registrados.\n");
+            return sb.toString();
+        }
+
+        // Contar cuántos medicamentos hay
+        int cantidadMeds = 1;
+        for (int i = 0; i < todosMeds.length(); i++) {
+            if (todosMeds.charAt(i) == '|') {
+                cantidadMeds++;
+            }
+        }
+
+        // Crear arreglos del tamaño exacto
+        String[] valores = new String[cantidadMeds];
+        int[] frecuencias = new int[cantidadMeds];
+        int totalDistintos = 0;
+
+        // Extraer cada medicamento
+        StringBuilder temp = new StringBuilder();
+        for (int i = 0; i < todosMeds.length(); i++) {
+            char c = todosMeds.charAt(i);
+            if (c == '|') {
+                String med = temp.toString();
+                if (med != null && med.length() > 0) {
+                    // Buscar si ya existe
+                    int pos = -1;
+                    for (int j = 0; j < totalDistintos; j++) {
+                        if (valores[j] != null && valores[j].equals(med)) {
+                            pos = j;
+                            break;
+                        }
+                    }
+                    if (pos != -1) {
+                        frecuencias[pos]++;
+                    } else {
+                        valores[totalDistintos] = med;
+                        frecuencias[totalDistintos] = 1;
+                        totalDistintos++;
+                    }
+                }
+                temp = new StringBuilder();
+            } else {
+                temp.append(c);
+            }
+        }
+        // Procesar el último
+        String ultimoMed = temp.toString();
+        if (ultimoMed != null && ultimoMed.length() > 0) {
+            int pos = -1;
+            for (int j = 0; j < totalDistintos; j++) {
+                if (valores[j] != null && valores[j].equals(ultimoMed)) {
+                    pos = j;
+                    break;
+                }
+            }
+            if (pos != -1) {
+                frecuencias[pos]++;
+            } else {
+                valores[totalDistintos] = ultimoMed;
+                frecuencias[totalDistintos] = 1;
+                totalDistintos++;
+            }
+        }
+
+        // Encontrar el más recetado
+        if (totalDistintos > 0) {
+            int maxIndex = 0;
+            for (int i = 1; i < totalDistintos; i++) {
+                if (frecuencias[i] > frecuencias[maxIndex]) {
+                    maxIndex = i;
+                }
+            }
+
+            String nombre = valores[maxIndex];
+            if (nombre.length() > 40) {
+                nombre = nombre.substring(0, 37) + "...";
+            }
+
+            sb.append("Medicamento más recetado: ");
+            sb.append(nombre);
+
+            int espacios = 31 - nombre.length();
+            for (int i = 0; i < espacios; i++) {
+                sb.append(" ");
+            }
+            sb.append("\n");
+
+            sb.append("    ");
+            sb.append(frecuencias[maxIndex]);
+            sb.append(" recetas en total");
+
+            espacios = 44 - String.valueOf(frecuencias[maxIndex]).length();
+            for (int i = 0; i < espacios; i++) {
+                sb.append(" ");
+            }
+            sb.append("\n");
+
+            sb.append("RECOMENDACIÓN:\n");
+            sb.append("    • Asegurar stock suficiente de este medicamento\n");
+            sb.append("    • Negociar precio por volumen con proveedores\n");
+        }
+
+        return sb.toString();
+    }
 }
 
     
