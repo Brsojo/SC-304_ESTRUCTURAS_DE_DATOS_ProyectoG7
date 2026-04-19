@@ -29,7 +29,7 @@ package com.mycompany.ed_g7_proyectofinal;
 
 public class ArbolBinario {
     /** Referencia a la raíz del árbol binario */
-    private NodoArbol raiz;
+    protected NodoArbol raiz;
 
     
     /**

@@ -197,6 +197,7 @@ public class ModuloPrincipal {
                             break;
                         case 3:
                             JOptionPane.showMessageDialog(null, "Segmentación de pacientes");
+                            miArbolExpedientes.segmentacionPacientes();
                             break;
                         case 4:
                             JOptionPane.showMessageDialog(null, "Detección de patrones");

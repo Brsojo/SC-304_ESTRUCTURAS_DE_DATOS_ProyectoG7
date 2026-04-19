@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.text.Normalizer;
 import java.util.Locale;
+import javax.swing.JOptionPane;
 
 
 
@@ -1125,6 +1126,71 @@ public class ArbolExpedientes extends ArbolBinario{
 
         return sb.toString();
     }
+    /**
+    * Realiza una segmentación de pacientes recorriendo el Árbol Binario de Búsqueda (ABB)
+    * en grupos de edades:
+    * 
+    *   Menores de edad: 0 a 17 años
+    *   Adultos: 18 a 64 años
+    *   Adultos mayores: 65 años o más
+    * 
+    *  Si el árbol está vacío (raíz nula), se informa al usuario mediante un mensaje
+    * y no se realiza el cálculo.
+    *
+    * La salida se muestra en una ventana de diálogo con el resumen de la segmentación.
+    */
+    
+    public void segmentacionPacientes() {
+
+        if (raiz == null) {
+            JOptionPane.showMessageDialog(null, "No hay pacientes registrados.");
+            return;
+        }
+
+        int[] contadores = new int[3];
+
+        segmentacionRec(raiz, contadores);
+
+        JOptionPane.showMessageDialog(null,
+                "***** SEGMENTACIÓN DE PACIENTES ******\n\n" +
+                        "Menores de Edad: " + contadores[0] +
+                        "\nAdultos: " + contadores[1] +
+                        "\nAdultos Mayores: " + contadores[2]);
+    }
+
+    
+    
+/**
+ * Método recursivo que recorre el ABB en orden (InOrden) para contabilizar
+ * pacientes según su edad y acumular los resultados en un arreglo de contadores.
+ *
+
+ * @param nodoActual Nodo actual del árbol durante el recorrido
+ * @param contadores Arreglo entero de tamaño 3 donde se acumulan los conteos 
+ */
+
+    private void segmentacionRec(NodoArbol nodoActual, int[] contadores) {
+
+        if (nodoActual != null) {
+
+            segmentacionRec(nodoActual.getNodoIzq(), contadores);
+
+            Paciente paciente = nodoActual.getPaciente();
+            int edad = paciente.getEdad();
+
+            if (edad >= 0 && edad < 18) {
+                contadores[0]++;
+            } else if (edad < 65) {
+                contadores[1]++;
+            } else {
+                contadores[2]++;
+            }
+
+            segmentacionRec(nodoActual.getNodoDer(), contadores);
+        }
+    }
+    
+    
 }
 
     
