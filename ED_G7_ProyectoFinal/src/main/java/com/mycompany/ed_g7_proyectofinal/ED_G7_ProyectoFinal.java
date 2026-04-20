@@ -37,29 +37,6 @@ public class ED_G7_ProyectoFinal {
         MP.MenuPrincipal();
          
 
-        /* 
-        Arbol arbol = new Arbol();
 
-        // Pacientes
-        Paciente p1 = new Paciente("A", "1", 10, "M");
-        Paciente p2 = new Paciente("B", "2", 30, "F");
-        Paciente p3 = new Paciente("C", "3", 70, "M");
-
-        // Nodos dobles
-        NodoDoble n1 = new NodoDoble(p1);
-        NodoDoble n2 = new NodoDoble(p2);
-        NodoDoble n3 = new NodoDoble(p3);
-
-        // Construcción manual del árbol
-        NodoArbol raiz = new NodoArbol(n2); // raíz = adulto
-        NodoArbol izq = new NodoArbol(n1); // menor
-        NodoArbol der = new NodoArbol(n3); // adulto mayor
-
-        raiz.setNodoIzq(izq);
-        raiz.setNodoDer(der);
-        arbol.setRaiz(raiz);
-
-        arbol.segmentacionPacientes();
-        */
     }
 }
